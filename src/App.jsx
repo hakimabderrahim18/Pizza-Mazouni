@@ -764,10 +764,10 @@ function App() {
       </div>
 
       {/* Hero Section */}
-      <header id="home" className="hero">
-        <div className="hero-bg" style={{ backgroundImage: `url('/storefront.png')` }}></div>
-        <div className="container">
-          <div className="hero-content">
+      <header id="home" className="hero-split">
+        <div className="hero-split-container">
+          {/* Left Column: Text & Content */}
+          <div className="hero-split-content">
             <div className="hero-badge">
               <Flame size={16} style={{ color: 'var(--accent)', filter: 'drop-shadow(0 0 5px var(--accent))' }} />
               Pizzeria Artisanale Algérienne
@@ -776,7 +776,7 @@ function App() {
               L'Authenticité de la
               <span>Pizza Traditionnelle</span>
             </h1>
-            <p>
+            <p className="hero-description">
               Savourez nos pizzas, sandwiches, libanais et burgers préparés avec passion à Tiaret. Une pâte légère, des ingrédients généreux et des saveurs inimitables.
             </p>
             <div className="hero-actions">
@@ -789,6 +789,15 @@ function App() {
                 Appeler maintenant
               </a>
             </div>
+          </div>
+
+          {/* Right Column: Clear Storefront Image */}
+          <div className="hero-split-image-container">
+            <img 
+              src="/storefront.png" 
+              alt="Entrée de la pizzeria Pizza Mazouni" 
+              className="hero-split-image"
+            />
           </div>
         </div>
       </header>
