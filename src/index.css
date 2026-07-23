@@ -386,6 +386,42 @@ h1, h2, h3, h4, h5, h6 {
   transform: scale(1.03);
 }
 
+.hero-image-badge {
+  position: absolute;
+  bottom: 24px;
+  left: 24px;
+  right: 24px;
+  background: rgba(58, 36, 24, 0.88); /* Deep chocolate color with opacity */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(242, 148, 27, 0.45); /* Subtle orange/gold border */
+  padding: 14px 20px;
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+  z-index: 5;
+  animation: floatBadge 4s ease-in-out infinite;
+  pointer-events: none; /* Allows click-through if needed */
+}
+
+.hero-image-badge span {
+  color: var(--bg-card); /* Cream white */
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.05rem;
+  letter-spacing: 0.02em;
+  display: block;
+}
+
+@keyframes floatBadge {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
 /* About Section */
 .about {
   padding: 100px 0;

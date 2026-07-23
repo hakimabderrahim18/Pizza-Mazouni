@@ -798,6 +798,9 @@ function App() {
               alt="Entrée de la pizzeria Pizza Mazouni" 
               className="hero-split-image"
             />
+            <div className="hero-image-badge">
+              <span>Le goût du fait maison, le secret de notre tradition ✨</span>
+            </div>
           </div>
         </div>
       </header>
