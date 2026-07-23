@@ -763,7 +763,8 @@ function App() {
       </div>
 
       {/* Hero Section */}
-      <header id="home" className="hero" style={{ backgroundImage: `url('/hero_bg.png')` }}>
+      <header id="home" className="hero">
+        <div className="hero-bg" style={{ backgroundImage: `url('/hero_bg.png')` }}></div>
         <div className="container">
           <div className="hero-content">
             <div className="hero-badge">
@@ -921,7 +922,7 @@ function App() {
                   flexWrap: 'wrap',
                   gap: '12px'
                 }}>
-                  <h4 style={{ fontSize: '1.2rem', textTransform: 'uppercase', color: 'var(--accent-gold)' }}>
+                  <h4 style={{ fontSize: '1.2rem', textTransform: 'uppercase', color: 'var(--text-primary)' }}>
                     Menu : {getMenuTitle(activeTab)}
                   </h4>
                   <div style={{ display: 'flex', gap: '8px' }}>
@@ -953,8 +954,8 @@ function App() {
                     cursor: 'zoom-in',
                     borderRadius: '4px',
                     overflow: 'hidden',
-                    border: '1px solid rgba(255,255,255,0.05)',
-                    backgroundColor: '#16161b'
+                    border: '1px solid var(--border)',
+                    backgroundColor: 'var(--bg-secondary)'
                   }}
                 >
                   <img 
@@ -1127,7 +1128,7 @@ function App() {
                   </div>
                   <div className="contact-info-text">
                     <h6>Téléphone (Commande / Info)</h6>
-                    <a href="tel:0773053626" style={{ fontSize: '1.25rem', fontWeight: 'bold', color: 'var(--accent-gold)' }}>
+                    <a href="tel:0773053626" style={{ fontSize: '1.25rem', fontWeight: 'bold', color: 'var(--accent)' }}>
                       0773053626
                     </a>
                   </div>
@@ -1199,7 +1200,7 @@ function App() {
           left: 0,
           width: '100%',
           height: '100%',
-          backgroundColor: 'rgba(10,10,12,0.98)',
+          backgroundColor: 'rgba(239, 230, 216, 0.98)',
           zIndex: 99999,
           display: 'flex',
           flexDirection: 'column',
@@ -1214,7 +1215,7 @@ function App() {
               right: '24px', 
               background: 'rgba(255,255,255,0.05)', 
               border: '1px solid var(--border)', 
-              color: '#fff', 
+              color: 'var(--text-primary)', 
               width: '44px',
               height: '44px',
               borderRadius: '50%',
@@ -1230,7 +1231,7 @@ function App() {
           </button>
           
           <h4 style={{ 
-            color: 'var(--accent-gold)', 
+            color: 'var(--accent)', 
             marginBottom: '20px', 
             textTransform: 'uppercase', 
             fontSize: '1.4rem', 
@@ -1246,7 +1247,7 @@ function App() {
               overflow: 'auto',
               borderRadius: '8px',
               border: '1px solid var(--border)',
-              backgroundColor: '#16161b',
+              backgroundColor: 'var(--bg-card)',
               boxShadow: 'var(--shadow)',
               cursor: 'zoom-out'
             }}
@@ -1287,7 +1288,7 @@ function App() {
           left: 0,
           width: '100%',
           height: '100%',
-          backgroundColor: 'rgba(0,0,0,0.8)',
+          backgroundColor: 'rgba(58, 36, 24, 0.6)',
           zIndex: 9999,
           display: 'flex',
           alignItems: 'center',
@@ -1319,7 +1320,7 @@ function App() {
             </p>
             
             <div style={{
-              background: 'rgba(0,0,0,0.2)',
+              background: 'var(--bg-secondary)',
               border: '1px solid var(--border)',
               padding: '16px',
               borderRadius: '6px',
@@ -1327,7 +1328,7 @@ function App() {
               marginBottom: '24px'
             }}>
               <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)', display: 'block', textTransform: 'uppercase', marginBottom: '4px' }}>Numéro d'appel Direct</span>
-              <a href="tel:0773053626" style={{ fontSize: '1.6rem', fontWeight: 'bold', color: 'var(--accent-gold)', textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
+              <a href="tel:0773053626" style={{ fontSize: '1.6rem', fontWeight: 'bold', color: 'var(--accent)', textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
                 <Phone size={24} />
                 0773053626
               </a>

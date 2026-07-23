@@ -1,22 +1,23 @@
+/* Pizza Mazouni CSS Stylesheet - Warm Beige & Chocolate Brown "FILL UP" Theme */
+
 :root {
-  --bg-primary: #0f0f12;
-  --bg-secondary: #16161b;
-  --bg-card: #202026;
-  --accent: #ff4500;
-  --accent-hover: #ff5714;
-  --accent-gold: #ffbe3b;
-  --accent-gold-rgb: 255, 190, 59;
-  --text-primary: #f8f9fa;
-  --text-secondary: #b3b4bd;
-  --text-muted: #6e707e;
-  --border: #2c2c38;
-  --shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  --bg-primary: #efe6d8;      /* Warm beige background */
+  --bg-secondary: #f4ecdf;    /* Slightly darker warm beige */
+  --bg-card: #fffdf9;         /* Soft off-white for cards */
+  --accent: #f2941b;          /* Orange accent */
+  --accent-hover: #e08310;
+  --accent-gold: #f5b62e;     /* Yellow gold accent */
+  --text-primary: #3a2418;    /* Deep chocolate brown for titles and primary text */
+  --text-secondary: #5c4033;  /* Medium chocolate brown for secondary text */
+  --text-muted: #8c7265;      /* Muted brown */
+  --border: #dfd4c1;          /* Warm border color */
+  --shadow: 0 10px 30px rgba(58, 36, 24, 0.06); /* Soft brown shadow */
   
   --font-display: 'Cinzel', serif;
   --font-body: 'Plus Jakarta Sans', sans-serif;
   
   scroll-behavior: smooth;
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 * {
@@ -125,42 +126,39 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .btn-primary {
-  background: var(--accent);
+  background: linear-gradient(135deg, var(--accent-gold), var(--accent));
   color: #fff;
-  border: 1px solid var(--accent);
-  box-shadow: 0 4px 15px rgba(255, 69, 0, 0.3);
+  border: none;
+  box-shadow: 0 4px 15px rgba(242, 148, 27, 0.25);
 }
 
 .btn-primary:hover {
-  background: var(--accent-hover);
-  border-color: var(--accent-hover);
-  box-shadow: 0 6px 20px rgba(255, 69, 0, 0.5);
+  background: linear-gradient(135deg, #e0a322, #d17e12);
+  box-shadow: 0 6px 20px rgba(242, 148, 27, 0.45);
   transform: translateY(-2px);
 }
 
 .btn-secondary {
   background: transparent;
   color: var(--text-primary);
-  border: 1px solid var(--border);
+  border: 2px solid var(--text-primary);
 }
 
 .btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: var(--text-primary);
+  background: rgba(58, 36, 24, 0.05);
   transform: translateY(-2px);
 }
 
 .btn-outline-gold {
   background: transparent;
-  color: var(--accent-gold);
-  border: 1px solid rgba(255, 190, 59, 0.4);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
 }
 
 .btn-outline-gold:hover {
-  background: rgba(255, 190, 59, 0.08);
-  border-color: var(--accent-gold);
-  color: #fff;
-  box-shadow: 0 4px 15px rgba(255, 190, 59, 0.2);
+  background: var(--bg-secondary);
+  color: var(--accent);
+  border-color: var(--accent);
 }
 
 /* Header & Navbar */
@@ -175,10 +173,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .navbar.scrolled {
-  background: rgba(15, 15, 18, 0.95);
+  background: rgba(239, 230, 216, 0.9);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
   padding: 12px 0;
+  box-shadow: 0 4px 20px rgba(58, 36, 24, 0.04);
 }
 
 .navbar .nav-container {
@@ -206,7 +205,7 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: 50%;
   object-fit: cover;
   border: 2px solid var(--accent);
-  box-shadow: 0 0 10px rgba(255, 69, 0, 0.3);
+  box-shadow: 0 0 10px rgba(242, 148, 27, 0.2);
 }
 
 .logo-text {
@@ -215,7 +214,7 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: #fff;
+  color: var(--text-primary);
   display: flex;
   flex-direction: column;
 }
@@ -225,7 +224,7 @@ h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-body);
   font-weight: 500;
   letter-spacing: 0.2em;
-  color: var(--accent-gold);
+  color: var(--accent);
   margin-top: -4px;
 }
 
@@ -260,7 +259,6 @@ h1, h2, h3, h4, h5, h6 {
   height: 2px;
   background: var(--accent);
   transition: var(--transition);
-  box-shadow: 0 0 8px var(--accent);
 }
 
 .nav-links a:hover::after,
@@ -283,7 +281,7 @@ h1, h2, h3, h4, h5, h6 {
   display: none;
   background: none;
   border: none;
-  color: #fff;
+  color: var(--text-primary);
   cursor: pointer;
 }
 
@@ -294,14 +292,26 @@ h1, h2, h3, h4, h5, h6 {
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
+  padding: 120px 0 80px;
+  background-color: var(--bg-primary);
+}
+
+.hero-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
-  overflow: hidden;
-  padding: 120px 0 80px;
+  opacity: 0.12; /* Low opacity makes the dark background image very faint and light */
+  z-index: 1;
+  pointer-events: none;
 }
 
-/* Background overlay with moody woodfire theme gradient */
+/* Warm beige gradient overlay to match "FILL UP" design */
 .hero::before {
   content: '';
   position: absolute;
@@ -311,14 +321,14 @@ h1, h2, h3, h4, h5, h6 {
   height: 100%;
   background: linear-gradient(
     135deg,
-    rgba(15, 15, 18, 0.95) 20%,
-    rgba(15, 15, 18, 0.8) 50%,
-    rgba(255, 69, 0, 0.15) 100%
+    rgba(239, 230, 216, 0.7) 0%,
+    rgba(239, 230, 216, 0.3) 100%
   );
-  z-index: 1;
+  z-index: 2;
+  pointer-events: none;
 }
 
-/* Fire particles layout on hero bottom */
+/* Bottom blending gradient */
 .hero::after {
   content: '';
   position: absolute;
@@ -328,6 +338,7 @@ h1, h2, h3, h4, h5, h6 {
   height: 150px;
   background: linear-gradient(to top, var(--bg-primary) 0%, transparent 100%);
   z-index: 2;
+  pointer-events: none;
 }
 
 .hero-content {
@@ -342,17 +353,16 @@ h1, h2, h3, h4, h5, h6 {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: rgba(255, 69, 0, 0.15);
-  border: 1px solid rgba(255, 69, 0, 0.3);
+  background: rgba(242, 148, 27, 0.08);
+  border: 1px solid rgba(242, 148, 27, 0.2);
   padding: 8px 16px;
   border-radius: 50px;
-  color: var(--accent-gold);
+  color: var(--text-primary);
   font-weight: 600;
   font-size: 0.85rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   margin-bottom: 24px;
-  backdrop-filter: blur(4px);
 }
 
 .hero-content h1 {
@@ -360,8 +370,7 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 1.1;
   text-transform: uppercase;
   margin-bottom: 20px;
-  color: #fff;
-  text-shadow: 0 4px 15px rgba(0, 0, 0, 0.8);
+  color: var(--text-primary);
 }
 
 .hero-content h1 span {
@@ -370,7 +379,6 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 4.8rem;
   font-weight: 900;
   letter-spacing: 0.08em;
-  text-shadow: 0 0 20px rgba(255, 69, 0, 0.4);
 }
 
 .hero-content p {
@@ -380,7 +388,6 @@ h1, h2, h3, h4, h5, h6 {
   max-width: 650px;
   margin-left: auto;
   margin-right: auto;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
 }
 
 .hero-actions {
@@ -444,7 +451,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .about-badge-card h4 {
   font-size: 2.2rem;
-  color: var(--accent-gold);
+  color: var(--accent);
   line-height: 1;
 }
 
@@ -460,7 +467,7 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 2.2rem;
   margin-bottom: 24px;
   text-transform: uppercase;
-  color: #fff;
+  color: var(--text-primary);
   line-height: 1.2;
 }
 
@@ -490,12 +497,12 @@ h1, h2, h3, h4, h5, h6 {
   flex-shrink: 0;
   width: 44px;
   height: 44px;
-  background: rgba(255, 190, 59, 0.1);
+  background: rgba(242, 148, 27, 0.08);
   border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--accent-gold);
+  color: var(--accent);
 }
 
 .about-feature-text h5 {
@@ -503,6 +510,7 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 1.05rem;
   margin-bottom: 4px;
   font-weight: 700;
+  color: var(--text-primary);
 }
 
 .about-feature-text p {
@@ -546,10 +554,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .tab-btn.active {
-  background: var(--accent);
-  border-color: var(--accent);
+  background: linear-gradient(135deg, var(--accent-gold), var(--accent));
+  border-color: transparent;
   color: #fff;
-  box-shadow: 0 4px 15px rgba(255, 69, 0, 0.3);
+  box-shadow: 0 4px 15px rgba(242, 148, 27, 0.2);
 }
 
 .menu-grid {
@@ -571,25 +579,27 @@ h1, h2, h3, h4, h5, h6 {
 
 .menu-card:hover {
   transform: translateY(-8px);
-  border-color: rgba(255, 69, 0, 0.3);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+  border-color: rgba(242, 148, 27, 0.25);
+  box-shadow: 0 15px 35px rgba(58, 36, 24, 0.08);
 }
 
 .menu-card-img-wrapper {
   position: relative;
   height: 220px;
   overflow: hidden;
+  background-color: var(--bg-secondary);
 }
 
 .menu-card-img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   transition: transform 0.5s ease;
+  padding: 12px;
 }
 
 .menu-card:hover .menu-card-img {
-  transform: scale(1.08);
+  transform: scale(1.04);
 }
 
 .menu-card-badge {
@@ -604,12 +614,12 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
 .menu-card-badge.special {
   background: var(--accent-gold);
-  color: #0f0f12;
+  color: var(--text-primary);
 }
 
 .menu-card-content {
@@ -630,13 +640,14 @@ h1, h2, h3, h4, h5, h6 {
 .menu-card-title {
   font-size: 1.3rem;
   text-transform: uppercase;
+  color: var(--text-primary);
 }
 
 .menu-card-price {
   font-family: var(--font-display);
   font-size: 1.25rem;
   font-weight: 800;
-  color: var(--accent-gold);
+  color: var(--accent);
   white-space: nowrap;
 }
 
@@ -666,7 +677,7 @@ h1, h2, h3, h4, h5, h6 {
 .menu-card-order-btn {
   background: transparent;
   border: none;
-  color: var(--accent-gold);
+  color: var(--text-secondary);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -683,7 +694,7 @@ h1, h2, h3, h4, h5, h6 {
 /* Extra Details Grid (Mega Pizza Options) */
 .extra-options-box {
   margin-top: 60px;
-  background: rgba(255, 69, 0, 0.03);
+  background: rgba(242, 148, 27, 0.03);
   border: 1px dashed var(--border);
   padding: 30px;
   border-radius: 8px;
@@ -694,7 +705,7 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 1.6rem;
   margin-bottom: 24px;
   text-transform: uppercase;
-  color: var(--accent-gold);
+  color: var(--accent);
 }
 
 .extra-grid {
@@ -715,6 +726,7 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 1.1rem;
   margin-bottom: 8px;
   text-transform: uppercase;
+  color: var(--text-primary);
 }
 
 .extra-card .price {
@@ -749,7 +761,7 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 2.2rem;
   margin-bottom: 12px;
   text-transform: uppercase;
-  color: #fff;
+  color: var(--text-primary);
 }
 
 .contact-subtitle {
@@ -773,7 +785,7 @@ h1, h2, h3, h4, h5, h6 {
   flex-shrink: 0;
   width: 48px;
   height: 48px;
-  background: rgba(255, 69, 0, 0.1);
+  background: rgba(242, 148, 27, 0.08);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -786,6 +798,7 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 1rem;
   font-weight: 700;
   margin-bottom: 4px;
+  color: var(--text-primary);
 }
 
 .contact-info-text p, 
@@ -796,7 +809,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .contact-info-text a:hover {
-  color: var(--accent-gold);
+  color: var(--accent);
 }
 
 .map-container {
@@ -815,10 +828,11 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Footer Section */
 .footer {
-  background: #09090b;
-  border-top: 1px solid var(--border);
+  background: #3a2418;
+  border-top: 1px solid #4a3428;
   padding: 60px 0 30px;
   text-align: center;
+  color: #f5f5f7;
 }
 
 .footer-logo {
@@ -832,11 +846,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .footer-logo span {
-  color: var(--accent);
+  color: var(--accent-gold);
 }
 
 .footer-tagline {
-  color: var(--text-secondary);
+  color: #dfd4c1;
   max-width: 400px;
   margin: 0 auto 30px;
   font-size: 0.95rem;
@@ -852,7 +866,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .footer-links a {
   text-decoration: none;
-  color: var(--text-secondary);
+  color: #dfd4c1;
   font-size: 0.9rem;
   transition: var(--transition);
 }
@@ -863,7 +877,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .footer-divider {
   border: 0;
-  border-top: 1px solid var(--border);
+  border-top: 1px solid #4a3428;
   margin-bottom: 30px;
 }
 
@@ -873,7 +887,7 @@ h1, h2, h3, h4, h5, h6 {
   align-items: center;
   flex-wrap: wrap;
   gap: 16px;
-  color: var(--text-muted);
+  color: #bcaaa4;
   font-size: 0.85rem;
 }
 
@@ -883,12 +897,12 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .footer-bottom-links a {
-  color: var(--text-muted);
+  color: #bcaaa4;
   text-decoration: none;
 }
 
 .footer-bottom-links a:hover {
-  color: var(--text-secondary);
+  color: #fff;
 }
 
 /* Mobile responsive styles */
@@ -976,7 +990,7 @@ h1, h2, h3, h4, h5, h6 {
   flex-direction: column;
   gap: 40px;
   transition: right 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-  box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+  box-shadow: -10px 0 30px rgba(58, 36, 24, 0.1);
 }
 
 .mobile-nav.open {
@@ -1016,7 +1030,7 @@ h1, h2, h3, h4, h5, h6 {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(58, 36, 24, 0.4);
   z-index: 1999;
   opacity: 0;
   pointer-events: none;
