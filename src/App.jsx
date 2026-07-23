@@ -773,8 +773,8 @@ function App() {
           </div>
           <h1>Pizza Mazouni</h1>
           <p className="hero-full-subtitle">L'authenticité et le savoir-faire de la pizza traditionnelle à Tiaret</p>
-          <a href="#intro" className="scroll-indicator">
-            <span className="arrow-down">↓ Découvrir la Pizzeria ↓</span>
+          <a href="#intro" className="btn btn-primary" style={{ marginTop: '30px', padding: '14px 32px', borderRadius: '50px', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+            Découvrir la Pizzeria ↓
           </a>
         </div>
       </header>
