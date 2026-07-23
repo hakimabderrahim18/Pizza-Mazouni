@@ -306,7 +306,7 @@ h1, h2, h3, h4, h5, h6 {
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
-  opacity: 0.12; /* Low opacity makes the dark background image very faint and light */
+  opacity: 0.22; /* Low opacity makes the storefront background image blended and light */
   z-index: 1;
   pointer-events: none;
 }

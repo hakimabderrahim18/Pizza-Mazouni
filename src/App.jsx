@@ -764,7 +764,7 @@ function App() {
 
       {/* Hero Section */}
       <header id="home" className="hero">
-        <div className="hero-bg" style={{ backgroundImage: `url('/hero_bg.png')` }}></div>
+        <div className="hero-bg" style={{ backgroundImage: `url('/storefront.jpg')` }}></div>
         <div className="container">
           <div className="hero-content">
             <div className="hero-badge">
