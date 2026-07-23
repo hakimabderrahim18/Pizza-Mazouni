@@ -763,47 +763,60 @@ function App() {
         </a>
       </div>
 
-      {/* Hero Section */}
-      <header id="home" className="hero-split">
-        <div className="hero-split-container">
-          {/* Left Column: Text & Content */}
-          <div className="hero-split-content">
-            <div className="hero-badge">
-              <Flame size={16} style={{ color: 'var(--accent)', filter: 'drop-shadow(0 0 5px var(--accent))' }} />
-              Pizzeria Artisanale Algérienne
-            </div>
-            <h1>
-              L'Authenticité de la
-              <span>Pizza Traditionnelle</span>
-            </h1>
-            <p className="hero-description">
-              Savourez nos pizzas, sandwiches, libanais et burgers préparés avec passion à Tiaret. Une pâte légère, des ingrédients généreux et des saveurs inimitables.
-            </p>
-            <div className="hero-actions">
-              <button onClick={() => handleNavClick('menu')} className="btn btn-primary">
-                Consulter la Carte
-                <ArrowRight size={18} />
-              </button>
-              <a href="tel:0773053626" className="btn btn-secondary">
-                <Phone size={18} />
-                Appeler maintenant
-              </a>
-            </div>
+      {/* Hero Section 1: Full Storefront Background */}
+      <header id="home" className="hero-full">
+        <div className="hero-full-bg" style={{ backgroundImage: `url('/storefront.png')` }}></div>
+        <div className="hero-full-overlay"></div>
+        <div className="hero-full-content">
+          <div className="hero-image-badge" style={{ position: 'relative', bottom: 'auto', left: 'auto', right: 'auto', marginBottom: '20px', display: 'inline-block' }}>
+            <span>Le goût du fait maison, le secret de notre tradition ✨</span>
           </div>
+          <h1>Pizza Mazouni</h1>
+          <p className="hero-full-subtitle">L'authenticité et le savoir-faire de la pizza traditionnelle à Tiaret</p>
+          <a href="#intro" className="scroll-indicator">
+            <span className="arrow-down">↓ Découvrir la Pizzeria ↓</span>
+          </a>
+        </div>
+      </header>
 
-          {/* Right Column: Clear Storefront Image */}
-          <div className="hero-split-image-container">
-            <img 
-              src="/storefront.png" 
-              alt="Entrée de la pizzeria Pizza Mazouni" 
-              className="hero-split-image"
-            />
-            <div className="hero-image-badge">
-              <span>Le goût du fait maison, le secret de notre tradition ✨</span>
+      {/* Hero Section 2: Restaurant Branding & Introduction */}
+      <section id="intro" className="hero-intro">
+        <div className="container">
+          <div className="hero-intro-grid">
+            <div className="hero-intro-content">
+              <div className="hero-badge">
+                <Flame size={16} style={{ color: 'var(--accent)', filter: 'drop-shadow(0 0 5px var(--accent))' }} />
+                Pizzeria Artisanale Algérienne
+              </div>
+              <h2>
+                L'Authenticité de la
+                <span>Pizza Traditionnelle</span>
+              </h2>
+              <p className="hero-description">
+                Savourez nos pizzas, sandwiches, libanais et burgers préparés avec passion à Tiaret. Une pâte légère, des ingrédients généreux et des saveurs inimitables.
+              </p>
+              <div className="hero-actions">
+                <button onClick={() => handleNavClick('menu')} className="btn btn-primary">
+                  Consulter la Carte
+                  <ArrowRight size={18} />
+                </button>
+                <a href="tel:0773053626" className="btn btn-secondary">
+                  <Phone size={18} />
+                  Appeler maintenant
+                </a>
+              </div>
+            </div>
+
+            <div className="hero-intro-image-container">
+              <img 
+                src="/about_pizza.png" 
+                alt="Préparation de la pâte à pizza Pizza Mazouni" 
+                className="hero-intro-image"
+              />
             </div>
           </div>
         </div>
-      </header>
+      </section>
 
       {/* About Section */}
       <section id="about" className="about">
