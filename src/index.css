@@ -306,12 +306,12 @@ h1, h2, h3, h4, h5, h6 {
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
-  opacity: 0.65; /* Make the storefront background image clearly visible */
+  opacity: 1.0; /* 100% full opacity, bright and clear storefront image */
   z-index: 1;
   pointer-events: none;
 }
 
-/* Warm beige gradient overlay to match "FILL UP" design */
+/* Clear overlay to keep the image 100% untouched */
 .hero::before {
   content: '';
   position: absolute;
@@ -319,12 +319,7 @@ h1, h2, h3, h4, h5, h6 {
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(
-    135deg,
-    rgba(239, 230, 216, 0.94) 0%,
-    rgba(239, 230, 216, 0.85) 60%,
-    rgba(239, 230, 216, 0.65) 100%
-  );
+  background: rgba(0, 0, 0, 0.1); /* Very subtle darkening just to tie it in */
   z-index: 2;
   pointer-events: none;
 }
@@ -348,6 +343,13 @@ h1, h2, h3, h4, h5, h6 {
   text-align: center;
   max-width: 800px;
   margin: 0 auto;
+  background: rgba(239, 230, 216, 0.94); /* Warm beige backdrop panel */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(58, 36, 24, 0.12);
+  padding: 48px 32px;
+  border-radius: 24px;
+  box-shadow: 0 25px 60px rgba(58, 36, 24, 0.18);
 }
 
 .hero-badge {
@@ -953,6 +955,12 @@ h1, h2, h3, h4, h5, h6 {
     display: block;
   }
   
+  .hero-content {
+    padding: 32px 18px;
+    border-radius: 16px;
+    margin: 0 16px;
+  }
+
   .hero-actions {
     flex-direction: column;
     width: 100%;
