@@ -13,7 +13,8 @@ import {
   Maximize2,
   Download,
   Search,
-  ZoomIn
+  ZoomIn,
+  Map
 } from 'lucide-react';
 
 // Comprehensive Database of Menu Items matching the user's uploaded menu boards exactly
@@ -1118,7 +1119,7 @@ function App() {
                   </div>
                   <div className="contact-info-text">
                     <h6>Adresse</h6>
-                    <p>Coordonnées GPS: 35.3502301, 1.3378714<br />Tiaret, Algérie</p>
+                    <p>À côté de la mosquée Ibn Badis EPLF<br />Coordonnées GPS: 35.3502301, 1.3378714<br />Tiaret, Algérie</p>
                   </div>
                 </div>
 
@@ -1148,6 +1149,16 @@ function App() {
               <a href="tel:0773053626" className="btn btn-primary" style={{ width: '100%' }}>
                 <Phone size={18} />
                 Appeler pour commander
+              </a>
+              <a 
+                href="https://www.google.com/maps?q=35.3502301,1.3378714" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="btn btn-secondary" 
+                style={{ width: '100%', marginTop: '12px' }}
+              >
+                <Map size={18} />
+                Itinéraire sur Google Maps
               </a>
             </div>
 
