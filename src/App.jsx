@@ -809,8 +809,8 @@ function App() {
 
             <div className="hero-intro-image-container">
               <img 
-                src="/about_pizza.png" 
-                alt="Préparation de la pâte à pizza Pizza Mazouni" 
+                src="/intro_pizza.png" 
+                alt="Pizza artisanale chez Pizza Mazouni" 
                 className="hero-intro-image"
               />
             </div>
