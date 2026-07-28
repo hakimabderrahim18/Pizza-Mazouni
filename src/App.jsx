@@ -391,7 +391,7 @@ const MENU_ITEMS = [
     "ingredients": "Assiette de steak haché de bœuf grillé, frites dorées, salade, sauces.",
     "price": 550,
     "category": "tacos-plats",
-    "image": "/logo.jpg"
+    "image": "/items/plat_viande_hachee.png"
   },
   {
     "id": "plt-merguez",
@@ -440,7 +440,7 @@ const MENU_ITEMS = [
     "ingredients": "Galette de blé grillée, viande kebab, frites dorées, sauce fromagère onctueuse.",
     "price": 450,
     "category": "tacos-plats",
-    "image": "/logo.jpg"
+    "image": "/items/tacos_poulet.png"
   },
   {
     "id": "tco-viande-hachee",
@@ -448,7 +448,7 @@ const MENU_ITEMS = [
     "ingredients": "Galette de blé, viande hachée grillée, frites, sauce fromagère maison.",
     "price": 450,
     "category": "tacos-plats",
-    "image": "/logo.jpg"
+    "image": "/items/tacos_viande_hachee.png"
   },
   {
     "id": "tco-poulet",
@@ -456,7 +456,7 @@ const MENU_ITEMS = [
     "ingredients": "Galette de blé, émincé de poulet grillé, frites, sauce fromagère.",
     "price": 450,
     "category": "tacos-plats",
-    "image": "/logo.jpg"
+    "image": "/items/tacos_poulet.png"
   },
   {
     "id": "tco-merguez",
@@ -464,7 +464,7 @@ const MENU_ITEMS = [
     "ingredients": "Galette de blé, merguez grillées, frites, sauce fromagère maison.",
     "price": 450,
     "category": "tacos-plats",
-    "image": "/logo.jpg"
+    "image": "/items/tacos_merguez.png"
   },
   {
     "id": "tco-crispy",
@@ -472,7 +472,7 @@ const MENU_ITEMS = [
     "ingredients": "Galette de blé, poulet pané extra-croustillant, frites, sauce fromagère.",
     "price": 500,
     "category": "tacos-plats",
-    "image": "/logo.jpg"
+    "image": "/items/tacos_poulet.png"
   },
   {
     "id": "tco-mixte",
@@ -481,7 +481,7 @@ const MENU_ITEMS = [
     "price": 550,
     "category": "tacos-plats",
     "badge": "Succès",
-    "image": "/logo.jpg"
+    "image": "/items/tacos_mixte.png"
   },
   {
     "id": "tco-gratine",
@@ -490,7 +490,7 @@ const MENU_ITEMS = [
     "price": 650,
     "category": "tacos-plats",
     "badge": "Gratiné",
-    "image": "/logo.jpg"
+    "image": "/items/tacos_gratine.png"
   },
   {
     "id": "tco-4fromages",
@@ -498,7 +498,7 @@ const MENU_ITEMS = [
     "ingredients": "Tacos généreux avec mozzarella, cheddar, gruyère et fromage rouge fondu.",
     "price": 700,
     "category": "tacos-plats",
-    "image": "/logo.jpg"
+    "image": "/items/tacos_4fromages.png"
   },
   {
     "id": "bgr-simple",
@@ -506,7 +506,7 @@ const MENU_ITEMS = [
     "ingredients": "Pain burger moelleux, steak haché grillé, salade, tomate, oignons, sauce maison.",
     "price": 200,
     "category": "tacos-plats",
-    "image": "/logo.jpg"
+    "image": "/items/burger_simple.png"
   },
   {
     "id": "bgr-cheese",
@@ -514,7 +514,7 @@ const MENU_ITEMS = [
     "ingredients": "Pain burger, steak haché grillé, tranche de cheddar fondant, salade, sauce.",
     "price": 250,
     "category": "tacos-plats",
-    "image": "/logo.jpg"
+    "image": "/items/burger_cheese_burger.png"
   },
   {
     "id": "bgr-double",
@@ -523,7 +523,7 @@ const MENU_ITEMS = [
     "price": 350,
     "category": "tacos-plats",
     "badge": "XXL",
-    "image": "/logo.jpg"
+    "image": "/items/burger_double.png"
   },
   {
     "id": "bgr-poulet",
@@ -531,7 +531,7 @@ const MENU_ITEMS = [
     "ingredients": "Pain burger, filet de poulet grillé, cheddar fondant, salade, sauce.",
     "price": 250,
     "category": "tacos-plats",
-    "image": "/logo.jpg"
+    "image": "/items/burger_poulet.png"
   },
   {
     "id": "bgr-krispy",
@@ -539,7 +539,7 @@ const MENU_ITEMS = [
     "ingredients": "Pain burger, filet de poulet pané croustillant, cheddar fondant, salade, sauce.",
     "price": 350,
     "category": "tacos-plats",
-    "image": "/logo.jpg"
+    "image": "/items/burger_krispy.png"
   }
 ];
 
