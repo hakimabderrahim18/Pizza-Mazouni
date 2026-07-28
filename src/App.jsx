@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-// Extracted Pizza Mazouni menu database with individual item cropped images
+// Extracted Pizza Mazouni menu database with generic category high-res food photography
 const MENU_ITEMS = [
   {
     "id": "tom-margherita",
@@ -8,7 +8,7 @@ const MENU_ITEMS = [
     "ingredients": "Sauce Tomate, Fromage, Olive.",
     "price": 200,
     "category": "sauce-tomate",
-    "image": "/items/tom_margherita.png"
+    "image": "/mazouni_special.png"
   },
   {
     "id": "tom-royale",
@@ -16,7 +16,7 @@ const MENU_ITEMS = [
     "ingredients": "Sauce Tomate, Fromage, Olive, Viande hachée.",
     "price": 250,
     "category": "sauce-tomate",
-    "image": "/items/tom_royale.png"
+    "image": "/mazouni_special.png"
   },
   {
     "id": "tom-napolitaine",
@@ -24,7 +24,7 @@ const MENU_ITEMS = [
     "ingredients": "Sauce Tomate, Fromage, Olive, Viande hachée, Maïs.",
     "price": 300,
     "category": "sauce-tomate",
-    "image": "/items/tom_napolitaine.png"
+    "image": "/mazouni_special.png"
   },
   {
     "id": "tom-chef",
@@ -32,7 +32,7 @@ const MENU_ITEMS = [
     "ingredients": "Sauce Tomate, Fromage, Olive, Poulet, Viande hachée.",
     "price": 350,
     "category": "sauce-tomate",
-    "image": "/items/tom_chef.png"
+    "image": "/mazouni_special.png"
   },
   {
     "id": "tom-vegetarienne-c",
@@ -40,7 +40,7 @@ const MENU_ITEMS = [
     "ingredients": "Sauce Tomate, Fromage, Olive, Tomate, Oignon, Maïs, Poivron.",
     "price": 350,
     "category": "sauce-tomate",
-    "image": "/items/tom_vegetarienne_c.png"
+    "image": "/mazouni_special.png"
   },
   {
     "id": "tom-viande-hachee",
@@ -48,7 +48,7 @@ const MENU_ITEMS = [
     "ingredients": "Sauce Tomate, Fromage, Olive, Viande hachée.",
     "price": 400,
     "category": "sauce-tomate",
-    "image": "/items/tom_viande_hachee.png"
+    "image": "/mazouni_special.png"
   },
   {
     "id": "tom-au-thon",
@@ -56,7 +56,7 @@ const MENU_ITEMS = [
     "ingredients": "Sauce Tomate, Fromage, Olive, Thon.",
     "price": 400,
     "category": "sauce-tomate",
-    "image": "/items/tom_au_thon.png"
+    "image": "/mazouni_special.png"
   },
   {
     "id": "tom-poulet-c",
@@ -64,7 +64,7 @@ const MENU_ITEMS = [
     "ingredients": "Sauce Tomate, Fromage, Olive, Poulet.",
     "price": 400,
     "category": "sauce-tomate",
-    "image": "/items/tom_poulet_c.png"
+    "image": "/mazouni_special.png"
   },
   {
     "id": "tom-kebab-c",
@@ -72,7 +72,7 @@ const MENU_ITEMS = [
     "ingredients": "Sauce Tomate, Fromage, Olive, Kebab.",
     "price": 400,
     "category": "sauce-tomate",
-    "image": "/items/tom_kebab_c.png"
+    "image": "/mazouni_special.png"
   },
   {
     "id": "tom-merguez-c",
@@ -80,7 +80,7 @@ const MENU_ITEMS = [
     "ingredients": "Sauce Tomate, Fromage, Olive, Merguez.",
     "price": 400,
     "category": "sauce-tomate",
-    "image": "/items/tom_merguez_c.png"
+    "image": "/mazouni_special.png"
   },
   {
     "id": "tom-speciale-c",
@@ -88,7 +88,7 @@ const MENU_ITEMS = [
     "ingredients": "Sauce Tomate, Fromage, Olive, Poulet, Viande Hachée, Maïs.",
     "price": 400,
     "category": "sauce-tomate",
-    "image": "/items/tom_speciale_c.png"
+    "image": "/mazouni_special.png"
   },
   {
     "id": "tom-4saisons",
@@ -96,7 +96,7 @@ const MENU_ITEMS = [
     "ingredients": "Sauce Tomate, Fromage, Olive, Merguez, Viande Hachée, Œuf.",
     "price": 400,
     "category": "sauce-tomate",
-    "image": "/items/tom_4saisons.png"
+    "image": "/mazouni_special.png"
   },
   {
     "id": "tom-mexicaine",
@@ -104,7 +104,7 @@ const MENU_ITEMS = [
     "ingredients": "Sauce Tomate, Fromage, Olive, Poulet, Viande Hachée, Thon, Maïs.",
     "price": 450,
     "category": "sauce-tomate",
-    "image": "/items/tom_mexicaine.png"
+    "image": "/mazouni_special.png"
   },
   {
     "id": "tom-maison",
@@ -112,7 +112,7 @@ const MENU_ITEMS = [
     "ingredients": "Sauce Tomate, Fromage, Olive, Viande hachée, Poulet, Kebab, Thon, Maïs, Fromage blanc.",
     "price": 500,
     "category": "sauce-tomate",
-    "image": "/items/tom_maison.png"
+    "image": "/mazouni_special.png"
   },
   {
     "id": "tom-4fromages-c",
@@ -120,7 +120,7 @@ const MENU_ITEMS = [
     "ingredients": "Sauce Tomate, Fromage Rouge, Gouda, Gruyère, Canserbort, Olive.",
     "price": 550,
     "category": "sauce-tomate",
-    "image": "/items/tom_4fromages_c.png"
+    "image": "/mazouni_special.png"
   },
   {
     "id": "tom-fermier",
@@ -129,7 +129,7 @@ const MENU_ITEMS = [
     "price": 550,
     "category": "sauce-tomate",
     "badge": "Spécial",
-    "image": "/items/le_fermier.png"
+    "image": "/mazouni_special.png"
   },
   {
     "id": "tom-souffle",
@@ -138,7 +138,7 @@ const MENU_ITEMS = [
     "price": 700,
     "category": "sauce-tomate",
     "badge": "Chaud",
-    "image": "/items/souffle.png"
+    "image": "/mazouni_special.png"
   },
   {
     "id": "tom-reine",
@@ -146,7 +146,7 @@ const MENU_ITEMS = [
     "ingredients": "Sauce tomate, Fromage, Poulet, Kebab, Viande Hachée, Camembert, Mozzarella.",
     "price": 750,
     "category": "sauce-tomate",
-    "image": "/items/4_saison.png"
+    "image": "/mazouni_special.png"
   },
   {
     "id": "tom-super",
@@ -154,7 +154,7 @@ const MENU_ITEMS = [
     "ingredients": "Sauce Tomate, Fromage, Olive, Poulet, Viande hachée, Thon, Maïs, Bordure fromage blanc, Mozzarella.",
     "price": 750,
     "category": "sauce-tomate",
-    "image": "/items/super.png"
+    "image": "/mazouni_special.png"
   },
   {
     "id": "tom-extra-fromage",
@@ -163,7 +163,7 @@ const MENU_ITEMS = [
     "price": 800,
     "category": "sauce-tomate",
     "badge": "Maxi Fromage",
-    "image": "/items/extra_fromage.png"
+    "image": "/mazouni_special.png"
   },
   {
     "id": "tom-istanbul",
@@ -171,7 +171,7 @@ const MENU_ITEMS = [
     "ingredients": "Sauce Tomate, Fromage, Olive, Poulet, Viande hachée, Poivron, Merguez, Kebab, Mozzarella.",
     "price": 800,
     "category": "sauce-tomate",
-    "image": "/items/istanbul.png"
+    "image": "/mazouni_special.png"
   },
   {
     "id": "tom-gruyere",
@@ -179,7 +179,7 @@ const MENU_ITEMS = [
     "ingredients": "Sauce Tomate, Fromage, Olive, Viande hachée, Merguez, Kebab, Gruyère, Mozzarella.",
     "price": 800,
     "category": "sauce-tomate",
-    "image": "/items/gruyere.png"
+    "image": "/mazouni_special.png"
   },
   {
     "id": "crm-poulet",
@@ -187,7 +187,7 @@ const MENU_ITEMS = [
     "ingredients": "Crème Fraîche, Fromage, Olive, Poulet.",
     "price": 500,
     "category": "creme-fraiche",
-    "image": "/items/creme_poulet.png"
+    "image": "/mazouni_special.png"
   },
   {
     "id": "crm-kebab",
@@ -195,7 +195,7 @@ const MENU_ITEMS = [
     "ingredients": "Crème Fraîche, Fromage, Olive, Kebab.",
     "price": 500,
     "category": "creme-fraiche",
-    "image": "/items/creme_kebab.png"
+    "image": "/mazouni_special.png"
   },
   {
     "id": "crm-maison",
@@ -204,7 +204,7 @@ const MENU_ITEMS = [
     "price": 600,
     "category": "creme-fraiche",
     "badge": "Spécial Maison",
-    "image": "/items/creme_maison.png"
+    "image": "/mazouni_special.png"
   },
   {
     "id": "crm-6fromages",
@@ -213,7 +213,7 @@ const MENU_ITEMS = [
     "price": 750,
     "category": "creme-fraiche",
     "badge": "Crémeux",
-    "image": "/items/creme_6fromages.png"
+    "image": "/mazouni_special.png"
   },
   {
     "id": "snd-kebab",
@@ -221,7 +221,7 @@ const MENU_ITEMS = [
     "ingredients": "Pain maison chaud, viande kebab grillée, frites, salade, sauces.",
     "price": 300,
     "category": "sandwiches",
-    "image": "/items/sandwich_kebab.png"
+    "image": "/sandwich.png"
   },
   {
     "id": "snd-poulet",
@@ -229,7 +229,7 @@ const MENU_ITEMS = [
     "ingredients": "Pain maison, émincé de poulet mariné, frites, salade, sauces.",
     "price": 300,
     "category": "sandwiches",
-    "image": "/items/sandwich_poulet.png"
+    "image": "/sandwich.png"
   },
   {
     "id": "snd-kebda",
@@ -237,7 +237,7 @@ const MENU_ITEMS = [
     "ingredients": "Pain maison, foie épicé sauté, frites, salade, sauces.",
     "price": 350,
     "category": "sandwiches",
-    "image": "/items/sandwich_kebda.png"
+    "image": "/sandwich.png"
   },
   {
     "id": "snd-crispy",
@@ -245,7 +245,7 @@ const MENU_ITEMS = [
     "ingredients": "Pain maison, filet de poulet croustillant pané, frites, salade, sauces.",
     "price": 350,
     "category": "sandwiches",
-    "image": "/items/sandwich_crispy.png"
+    "image": "/sandwich.png"
   },
   {
     "id": "snd-merguez",
@@ -253,7 +253,7 @@ const MENU_ITEMS = [
     "ingredients": "Pain maison, merguez grillées, frites, salade, sauces.",
     "price": 350,
     "category": "sandwiches",
-    "image": "/items/sandwich_merguez.png"
+    "image": "/sandwich.png"
   },
   {
     "id": "snd-viande-hachee",
@@ -261,7 +261,7 @@ const MENU_ITEMS = [
     "ingredients": "Pain maison, viande hachée assaisonnée, frites, salade, sauces.",
     "price": 350,
     "category": "sandwiches",
-    "image": "/items/sandwich_viande_hachee.png"
+    "image": "/sandwich.png"
   },
   {
     "id": "snd-mixte",
@@ -270,7 +270,7 @@ const MENU_ITEMS = [
     "price": 450,
     "category": "sandwiches",
     "badge": "Gros Appétit",
-    "image": "/items/sandwich_mixte.png"
+    "image": "/sandwich.png"
   },
   {
     "id": "chs-poulet",
@@ -278,7 +278,7 @@ const MENU_ITEMS = [
     "ingredients": "Pain de mie toasté grillé, fromage fondant, poulet mariné, frites.",
     "price": 300,
     "category": "sandwiches",
-    "image": "/items/cheese_poulet.png"
+    "image": "/sandwich.png"
   },
   {
     "id": "chs-kebab",
@@ -286,7 +286,7 @@ const MENU_ITEMS = [
     "ingredients": "Pain de mie toasté, fromage fondant, viande kebab grillée, frites.",
     "price": 350,
     "category": "sandwiches",
-    "image": "/items/cheese_kebab.png"
+    "image": "/sandwich.png"
   },
   {
     "id": "chs-kebda",
@@ -294,7 +294,7 @@ const MENU_ITEMS = [
     "ingredients": "Pain de mie toasté, fromage fondant, foie épicé sauté, frites.",
     "price": 350,
     "category": "sandwiches",
-    "image": "/items/cheese_kebda.png"
+    "image": "/sandwich.png"
   },
   {
     "id": "chs-crispy",
@@ -302,7 +302,7 @@ const MENU_ITEMS = [
     "ingredients": "Pain de mie toasté, fromage fondant, poulet croustillant pané, frites.",
     "price": 350,
     "category": "sandwiches",
-    "image": "/items/cheese_crispy.png"
+    "image": "/sandwich.png"
   },
   {
     "id": "chs-merguez",
@@ -310,7 +310,7 @@ const MENU_ITEMS = [
     "ingredients": "Pain de mie toasté, fromage fondant, merguez grillées, frites.",
     "price": 350,
     "category": "sandwiches",
-    "image": "/items/cheese_merguez.png"
+    "image": "/sandwich.png"
   },
   {
     "id": "chs-viande-hachee",
@@ -318,7 +318,7 @@ const MENU_ITEMS = [
     "ingredients": "Pain de mie toasté, fromage fondant, viande hachée, frites.",
     "price": 350,
     "category": "sandwiches",
-    "image": "/items/cheese_viande_hachee.png"
+    "image": "/sandwich.png"
   },
   {
     "id": "chs-mixte",
@@ -326,7 +326,7 @@ const MENU_ITEMS = [
     "ingredients": "Pain de mie toasté, fromage fondant, mélange de viandes, frites.",
     "price": 450,
     "category": "sandwiches",
-    "image": "/items/cheese_mixte.png"
+    "image": "/sandwich.png"
   },
   {
     "id": "lib-poulet",
@@ -334,7 +334,7 @@ const MENU_ITEMS = [
     "ingredients": "Pain libanais enroulé, poulet émincé, frites, salade, crème d'ail.",
     "price": 400,
     "category": "sandwiches",
-    "image": "/items/libanais_poulet.png"
+    "image": "/sandwich.png"
   },
   {
     "id": "lib-kebab",
@@ -342,7 +342,7 @@ const MENU_ITEMS = [
     "ingredients": "Pain libanais enroulé, viande kebab grillée, frites, salade, sauces.",
     "price": 400,
     "category": "sandwiches",
-    "image": "/items/libanais_kebab.png"
+    "image": "/sandwich.png"
   },
   {
     "id": "lib-crispy",
@@ -350,7 +350,7 @@ const MENU_ITEMS = [
     "ingredients": "Pain libanais, poulet croustillant pané, frites, salade, sauces.",
     "price": 450,
     "category": "sandwiches",
-    "image": "/items/libanais_crispy.png"
+    "image": "/sandwich.png"
   },
   {
     "id": "lib-viande-hachee",
@@ -358,7 +358,7 @@ const MENU_ITEMS = [
     "ingredients": "Pain libanais, viande hachée assaisonnée, frites, salade, sauces.",
     "price": 450,
     "category": "sandwiches",
-    "image": "/items/libanais_viande_hachee.png"
+    "image": "/sandwich.png"
   },
   {
     "id": "lib-merguez",
@@ -366,7 +366,7 @@ const MENU_ITEMS = [
     "ingredients": "Pain libanais, merguez dorées, frites, salade, sauces.",
     "price": 450,
     "category": "sandwiches",
-    "image": "/items/libanais_merguez.png"
+    "image": "/sandwich.png"
   },
   {
     "id": "lib-mixte",
@@ -375,7 +375,7 @@ const MENU_ITEMS = [
     "price": 500,
     "category": "sandwiches",
     "badge": "Populaire",
-    "image": "/items/libanais_mixte.png"
+    "image": "/sandwich.png"
   },
   {
     "id": "plt-escalope",
@@ -383,7 +383,7 @@ const MENU_ITEMS = [
     "ingredients": "Assiette d'escalope de poulet tendre grillée, frites, salade, sauces.",
     "price": 550,
     "category": "tacos-plats",
-    "image": "/items/plat_escalope.png"
+    "image": "/plat.png"
   },
   {
     "id": "plt-steak",
@@ -391,7 +391,7 @@ const MENU_ITEMS = [
     "ingredients": "Assiette de steak haché de bœuf grillé, frites dorées, salade, sauces.",
     "price": 550,
     "category": "tacos-plats",
-    "image": "/items/plat_viande_hachee.png"
+    "image": "/plat.png"
   },
   {
     "id": "plt-merguez",
@@ -399,7 +399,7 @@ const MENU_ITEMS = [
     "ingredients": "Assiette de merguez grillées au four traditionnel, frites dorées, salade, sauces.",
     "price": 550,
     "category": "tacos-plats",
-    "image": "/items/plat_merguez.png"
+    "image": "/plat.png"
   },
   {
     "id": "plt-kebab",
@@ -407,7 +407,7 @@ const MENU_ITEMS = [
     "ingredients": "Assiette de viande kebab marinée et grillée, frites dorées, salade, sauces.",
     "price": 600,
     "category": "tacos-plats",
-    "image": "/items/plat_kebab.png"
+    "image": "/plat.png"
   },
   {
     "id": "plt-crispy",
@@ -415,7 +415,7 @@ const MENU_ITEMS = [
     "ingredients": "Assiette de filets de poulet croustillants panés, frites dorées, salade, sauces.",
     "price": 650,
     "category": "tacos-plats",
-    "image": "/items/plat_crispy.png"
+    "image": "/plat.png"
   },
   {
     "id": "plt-kebda",
@@ -423,7 +423,7 @@ const MENU_ITEMS = [
     "ingredients": "Assiette de foie épicé sauté aux oignons, frites dorées, salade, sauces.",
     "price": 650,
     "category": "tacos-plats",
-    "image": "/items/plat_kebda.png"
+    "image": "/plat.png"
   },
   {
     "id": "plt-mixte",
@@ -432,7 +432,7 @@ const MENU_ITEMS = [
     "price": 700,
     "category": "tacos-plats",
     "badge": "Complet",
-    "image": "/items/plat_mixte.png"
+    "image": "/plat.png"
   },
   {
     "id": "tco-kebab",
@@ -440,7 +440,7 @@ const MENU_ITEMS = [
     "ingredients": "Galette de blé grillée, viande kebab, frites dorées, sauce fromagère onctueuse.",
     "price": 450,
     "category": "tacos-plats",
-    "image": "/items/tacos_poulet.png"
+    "image": "/tacos.png"
   },
   {
     "id": "tco-viande-hachee",
@@ -448,7 +448,7 @@ const MENU_ITEMS = [
     "ingredients": "Galette de blé, viande hachée grillée, frites, sauce fromagère maison.",
     "price": 450,
     "category": "tacos-plats",
-    "image": "/items/tacos_viande_hachee.png"
+    "image": "/tacos.png"
   },
   {
     "id": "tco-poulet",
@@ -456,7 +456,7 @@ const MENU_ITEMS = [
     "ingredients": "Galette de blé, émincé de poulet grillé, frites, sauce fromagère.",
     "price": 450,
     "category": "tacos-plats",
-    "image": "/items/tacos_poulet.png"
+    "image": "/tacos.png"
   },
   {
     "id": "tco-merguez",
@@ -464,7 +464,7 @@ const MENU_ITEMS = [
     "ingredients": "Galette de blé, merguez grillées, frites, sauce fromagère maison.",
     "price": 450,
     "category": "tacos-plats",
-    "image": "/items/tacos_merguez.png"
+    "image": "/tacos.png"
   },
   {
     "id": "tco-crispy",
@@ -472,7 +472,7 @@ const MENU_ITEMS = [
     "ingredients": "Galette de blé, poulet pané extra-croustillant, frites, sauce fromagère.",
     "price": 500,
     "category": "tacos-plats",
-    "image": "/items/tacos_poulet.png"
+    "image": "/tacos.png"
   },
   {
     "id": "tco-mixte",
@@ -481,7 +481,7 @@ const MENU_ITEMS = [
     "price": 550,
     "category": "tacos-plats",
     "badge": "Succès",
-    "image": "/items/tacos_mixte.png"
+    "image": "/tacos.png"
   },
   {
     "id": "tco-gratine",
@@ -490,7 +490,7 @@ const MENU_ITEMS = [
     "price": 650,
     "category": "tacos-plats",
     "badge": "Gratiné",
-    "image": "/items/tacos_gratine.png"
+    "image": "/tacos.png"
   },
   {
     "id": "tco-4fromages",
@@ -498,7 +498,7 @@ const MENU_ITEMS = [
     "ingredients": "Tacos généreux avec mozzarella, cheddar, gruyère et fromage rouge fondu.",
     "price": 700,
     "category": "tacos-plats",
-    "image": "/items/tacos_4fromages.png"
+    "image": "/tacos.png"
   },
   {
     "id": "bgr-simple",
@@ -506,7 +506,7 @@ const MENU_ITEMS = [
     "ingredients": "Pain burger moelleux, steak haché grillé, salade, tomate, oignons, sauce maison.",
     "price": 200,
     "category": "tacos-plats",
-    "image": "/items/burger_simple.png"
+    "image": "/burger.png"
   },
   {
     "id": "bgr-cheese",
@@ -514,7 +514,7 @@ const MENU_ITEMS = [
     "ingredients": "Pain burger, steak haché grillé, tranche de cheddar fondant, salade, sauce.",
     "price": 250,
     "category": "tacos-plats",
-    "image": "/items/burger_cheese_burger.png"
+    "image": "/burger.png"
   },
   {
     "id": "bgr-double",
@@ -523,7 +523,7 @@ const MENU_ITEMS = [
     "price": 350,
     "category": "tacos-plats",
     "badge": "XXL",
-    "image": "/items/burger_double.png"
+    "image": "/burger.png"
   },
   {
     "id": "bgr-poulet",
@@ -531,7 +531,7 @@ const MENU_ITEMS = [
     "ingredients": "Pain burger, filet de poulet grillé, cheddar fondant, salade, sauce.",
     "price": 250,
     "category": "tacos-plats",
-    "image": "/items/burger_poulet.png"
+    "image": "/burger.png"
   },
   {
     "id": "bgr-krispy",
@@ -539,7 +539,7 @@ const MENU_ITEMS = [
     "ingredients": "Pain burger, filet de poulet pané croustillant, cheddar fondant, salade, sauce.",
     "price": 350,
     "category": "tacos-plats",
-    "image": "/items/burger_krispy.png"
+    "image": "/burger.png"
   }
 ];
 
@@ -725,6 +725,7 @@ export default function App() {
       </a>
 
       {/* FOOTER */}
+      <footer className="app-root-footer" style={{ display: 'none' }} /> {/* Unused spacer */}
       <footer className="app-footer">
         <div className="footer-info">
           <h3>Pizza Mazouni</h3>
