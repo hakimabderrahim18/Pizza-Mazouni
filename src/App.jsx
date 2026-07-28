@@ -1,23 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  Phone, 
-  MapPin, 
-  Clock, 
-  Menu as MenuIcon, 
-  X, 
-  Flame, 
-  ChevronRight, 
-  Award, 
-  Sparkles, 
-  ArrowRight,
-  Maximize2,
-  Download,
-  Search,
-  ZoomIn,
-  Map
-} from 'lucide-react';
 
-// Comprehensive Database of Menu Items matching the user's uploaded menu boards exactly
+// Extracted Pizza Mazouni menu database
 const MENU_ITEMS = [
   // ==================== SAUCE TOMATE PIZZAS (Image 3 & Image 2 top row) ====================
   {
@@ -566,823 +549,202 @@ const MENU_ITEMS = [
     category: 'tacos-plats',
     image: '/m4_orange.png'
   }
-];
+];;
 
-// Mapping Category key to the uploaded menu board image path
-const MENU_BOARD_IMAGES = {
-  'sauce-tomate': '/m2_orange.png',
-  'creme-fraiche': '/m1_orange.png',
-  'sandwiches': '/m3_orange.png',
-  'tacos-plats': '/m4_orange.png',
-  'pizzamenu': '/pizzamenu.jpg'
-};
-
-function App() {
-  const [activeTab, setActiveTab] = useState('sauce-tomate');
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState('home');
-  const [orderModalItem, setOrderModalItem] = useState(null);
+export default function App() {
   const [searchQuery, setSearchQuery] = useState('');
-  const [lightboxOpen, setLightboxOpen] = useState(false);
-  const [menuViewMode, setMenuViewMode] = useState('image'); // 'image' or 'list'
+  const [sortBy, setSortBy] = useState('default');
+  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
 
-  // Scroll detection to highlight headers and change navbar states
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
+  const categories = [
+    { id: 'all', name: 'Tout' },
+    { id: 'sauce-tomate', name: 'Pizzas Sauce Tomate' },
+    { id: 'creme-fraiche', name: 'Pizzas Crème Fraîche & Méga' },
+    { id: 'tacos-plats', name: 'Plats, Tacos & Burgers' },
+    { id: 'sandwiches', name: 'Sandwiches, Cheese & Libanais' }
+  ];
 
-      const sections = ['home', 'about', 'menu', 'location'];
-      const scrollPosition = window.scrollY + 200;
-
-      for (const section of sections) {
-        const el = document.getElementById(section);
-        if (el) {
-          const top = el.offsetTop;
-          const height = el.offsetHeight;
-          if (scrollPosition >= top && scrollPosition < top + height) {
-            setActiveSection(section);
-          }
-        }
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const handleNavClick = (sectionId) => {
-    setMobileMenuOpen(false);
-    const el = document.getElementById(sectionId);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
-  // Filter items in text view according to tab and search query
-  const filteredMenu = MENU_ITEMS.filter(item => {
-    const matchesCategory = item.category === activeTab;
-    const matchesSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                          item.ingredients.toLowerCase().includes(searchQuery.toLowerCase());
+  // Filtering and sorting logic
+  const filteredItems = MENU_ITEMS.filter(item => {
+    const matchesCategory = selectedCategory === 'all' || item.category === selectedCategory;
+    const query = searchQuery.toLowerCase().trim();
+    const matchesSearch = !query || 
+      item.name.toLowerCase().includes(query) || 
+      (item.ingredients && item.ingredients.toLowerCase().includes(query));
     return matchesCategory && matchesSearch;
   });
 
-  const getMenuTitle = (tab) => {
-    switch(tab) {
-      case 'sauce-tomate': return 'Pizzas Sauce Tomate';
-      case 'creme-fraiche': return 'Pizzas Crème Fraîche & Méga';
-      case 'sandwiches': return 'Sandwiches & Cheese & Libanais';
-      case 'tacos-plats': return 'Plats, Tacos & Burgers';
-      default: return 'Notre Menu';
-    }
+  const sortedItems = [...filteredItems].sort((a, b) => {
+    if (sortBy === 'price-asc') return a.price - b.price;
+    if (sortBy === 'price-desc') return b.price - a.price;
+    return 0; // keeps default order
+  });
+
+  const openModal = (item) => {
+    setSelectedItem(item);
+    setIsModalOpen(true);
+    document.body.style.overflow = 'hidden'; // prevent background scrolling
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    document.body.style.overflow = ''; // restore scrolling
+  };
+
+  const resetSearch = () => {
+    setSearchQuery('');
+    setSelectedCategory('all');
+    setSortBy('default');
   };
 
   return (
-    <>
-      {/* Sticky Header */}
-      <nav className={`navbar ${isScrolled ? 'scrolled' : ''}`}>
-        <div className="container nav-container">
-          <a href="#home" className="logo-link" onClick={(e) => { e.preventDefault(); handleNavClick('home'); }}>
-            <img src="/logo.jpg" alt="Pizza Mazouni Logo" className="logo-img" />
-            <div className="logo-text">
-              Pizza Mazouni
-              <span>Pizzeria</span>
-            </div>
-          </a>
-
-          {/* Desktop Navigation */}
-          <ul className="nav-links">
-            <li>
-              <a 
-                href="#home" 
-                className={activeSection === 'home' ? 'active' : ''}
-                onClick={(e) => { e.preventDefault(); handleNavClick('home'); }}
-              >
-                Accueil
-              </a>
-            </li>
-            <li>
-              <a 
-                href="#about" 
-                className={activeSection === 'about' ? 'active' : ''}
-                onClick={(e) => { e.preventDefault(); handleNavClick('about'); }}
-              >
-                À Propos
-              </a>
-            </li>
-            <li>
-              <a 
-                href="#menu" 
-                className={activeSection === 'menu' ? 'active' : ''}
-                onClick={(e) => { e.preventDefault(); handleNavClick('menu'); }}
-              >
-                Le Menu
-              </a>
-            </li>
-            <li>
-              <a 
-                href="#location" 
-                className={activeSection === 'location' ? 'active' : ''}
-                onClick={(e) => { e.preventDefault(); handleNavClick('location'); }}
-              >
-                Localisation
-              </a>
-            </li>
-          </ul>
-
-          {/* Call CTA Button */}
-          <div className="nav-cta">
-            <a href="tel:0773053626" className="btn btn-primary btn-call-nav">
-              <Phone size={16} />
-              0773053626
-            </a>
-            <button className="mobile-menu-btn" onClick={() => setMobileMenuOpen(true)}>
-              <MenuIcon size={28} />
-            </button>
-          </div>
-        </div>
-      </nav>
-
-      {/* Mobile Navigation Drawer */}
-      <div className={`mobile-nav-overlay ${mobileMenuOpen ? 'open' : ''}`} onClick={() => setMobileMenuOpen(false)}></div>
-      <div className={`mobile-nav ${mobileMenuOpen ? 'open' : ''}`}>
-        <div className="mobile-nav-header">
-          <div className="logo-text">
-            Pizza Mazouni
-            <span style={{ color: 'var(--accent-gold)' }}>Pizzeria</span>
-          </div>
-          <button style={{ background: 'none', border: 'none', color: '#fff', cursor: 'pointer' }} onClick={() => setMobileMenuOpen(false)}>
-            <X size={28} />
-          </button>
-        </div>
-        <ul className="mobile-nav-links">
-          <li>
-            <a 
-              href="#home" 
-              className={activeSection === 'home' ? 'active' : ''}
-              onClick={(e) => { e.preventDefault(); handleNavClick('home'); }}
-            >
-              Accueil
-            </a>
-          </li>
-          <li>
-            <a 
-              href="#about" 
-              className={activeSection === 'about' ? 'active' : ''}
-              onClick={(e) => { e.preventDefault(); handleNavClick('about'); }}
-            >
-              À Propos
-            </a>
-          </li>
-          <li>
-            <a 
-              href="#menu" 
-              className={activeSection === 'menu' ? 'active' : ''}
-              onClick={(e) => { e.preventDefault(); handleNavClick('menu'); }}
-            >
-              Le Menu
-            </a>
-          </li>
-          <li>
-            <a 
-              href="#location" 
-              className={activeSection === 'location' ? 'active' : ''}
-              onClick={(e) => { e.preventDefault(); handleNavClick('location'); }}
-            >
-              Localisation
-            </a>
-          </li>
-        </ul>
-        <a href="tel:0773053626" className="btn btn-primary" style={{ marginTop: 'auto', width: '100%' }}>
-          <Phone size={18} />
-          Appeler pour commander
-        </a>
-      </div>
-
-      {/* Hero Section 1: Full Storefront Background */}
-      <header id="home" className="hero-full">
-        <div className="hero-full-bg" style={{ backgroundImage: `url('/storefront.png')` }}></div>
-        <div className="hero-full-overlay"></div>
-        <div className="hero-full-content">
-          <div className="hero-image-badge" style={{ position: 'relative', bottom: 'auto', left: 'auto', right: 'auto', marginBottom: '20px', display: 'inline-block' }}>
-            <span>Le goût du fait maison, le secret de notre tradition ✨</span>
-          </div>
-          <h1>Pizza Mazouni</h1>
-          <p className="hero-full-subtitle">L'authenticité et le savoir-faire de la pizza traditionnelle à Tiaret</p>
-          <a href="#intro" className="btn btn-primary" style={{ marginTop: '30px', padding: '14px 32px', borderRadius: '50px', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-            Découvrir la Pizzeria ↓
-          </a>
+    <div className="app-root">
+      {/* HEADER / HERO BANNER */}
+      <header className="hero-banner">
+        <div className="hero-content">
+          <img src="/logo.jpg" alt="Pizza Mazouni" className="hero-image" />
         </div>
       </header>
 
-      {/* Hero Section 2: Restaurant Branding & Introduction */}
-      <section id="intro" className="hero-intro">
-        <div className="container">
-          <div className="hero-intro-grid">
-            <div className="hero-intro-content">
-              <div className="hero-badge">
-                <Flame size={16} style={{ color: 'var(--accent)', filter: 'drop-shadow(0 0 5px var(--accent))' }} />
-                Pizzeria Artisanale Algérienne
-              </div>
-              <h2>
-                L'Authenticité de la
-                <span>Pizza Traditionnelle</span>
-              </h2>
-              <p className="hero-description">
-                Savourez nos pizzas, sandwiches, libanais et burgers préparés avec passion à Tiaret. Une pâte légère, des ingrédients généreux et des saveurs inimitables.
-              </p>
-              <div className="hero-actions">
-                <button onClick={() => handleNavClick('menu')} className="btn btn-primary">
-                  Consulter la Carte
-                  <ArrowRight size={18} />
-                </button>
-                <a href="tel:0773053626" className="btn btn-secondary">
-                  <Phone size={18} />
-                  Appeler maintenant
-                </a>
-              </div>
-            </div>
-
-            <div className="hero-intro-image-container">
-              <img 
-                src="/intro_pizza.png" 
-                alt="Pizza artisanale chez Pizza Mazouni" 
-                className="hero-intro-image"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* About Section */}
-      <section id="about" className="about">
-        <div className="container">
-          <div className="about-grid">
-            <div className="about-img-container">
-              <div className="about-img-frame">
-                <img src="/about_pizza.png" alt="Préparation de pizza artisanale" className="about-img" />
-              </div>
-              <div className="about-badge-card">
-                <h4>100%</h4>
-                <p>Artisanale</p>
-              </div>
-            </div>
-            <div className="about-content">
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--accent-gold)', marginBottom: '12px' }}>
-                <Award size={18} />
-                <span style={{ fontSize: '0.85rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em' }}>Savoir-faire de Qualité</span>
-              </div>
-              <h3>Le Goût de la <span>Tradition</span></h3>
-              <p>
-                Chez <strong>Pizza Mazouni</strong>, nous croyons qu'une excellente cuisine commence par le respect du temps et des ingrédients. Notre pâte signature fermente lentement pendant 48 heures pour développer une légèreté et un croustillant sans pareils.
-              </p>
-              <p>
-                Qu'il s'agisse de nos pizzas à base de sauce tomate mijotée, de nos bases crème fraîche crémeuses, ou de notre large sélection de burgers, de tacos gratinés et de délicieux sandwiches Libanais, nous préparons chaque commande sur commande avec des ingrédients frais.
-              </p>
-              
-              <div className="about-features">
-                <div className="about-feature-item">
-                  <div className="about-feature-icon">
-                    <Flame size={20} />
-                  </div>
-                  <div className="about-feature-text">
-                    <h5>Four Traditionnel</h5>
-                    <p>Cuisson impeccable sur plaque réfractaire.</p>
-                  </div>
-                </div>
-                <div className="about-feature-item">
-                  <div className="about-feature-icon">
-                    <Sparkles size={20} />
-                  </div>
-                  <div className="about-feature-text">
-                    <h5>Pâte Légère 48h</h5>
-                    <p>Digeste, croustillante et incroyablement dorée.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Menu Section */}
-      <section id="menu" className="menu-section">
-        <div className="container">
-          <div className="section-header">
-            <h2>La Carte Complète</h2>
-            <p>Consultez nos menus directement en image ou parcourez la liste détaillée de nos produits par catégorie.</p>
-            
-            {/* View Mode Toggle: Image Menu vs Text List Menu */}
-            <div style={{
-              display: 'flex',
-              justifyContent: 'center',
-              gap: '12px',
-              marginTop: '24px'
-            }}>
-              <button 
-                onClick={() => setMenuViewMode('image')} 
-                className={`tab-btn ${menuViewMode === 'image' ? 'active' : ''}`}
-                style={{ borderRadius: '4px', fontSize: '0.85rem', padding: '8px 16px' }}
-              >
-                Vue Menu Original (Image)
-              </button>
-              <button 
-                onClick={() => setMenuViewMode('list')} 
-                className={`tab-btn ${menuViewMode === 'list' ? 'active' : ''}`}
-                style={{ borderRadius: '4px', fontSize: '0.85rem', padding: '8px 16px' }}
-              >
-                Vue Recherche & Liste (Texte)
-              </button>
-            </div>
+      {/* APP CONTAINER */}
+      <main className="app-container">
+        
+        {/* SEARCH & CONTROLS */}
+        <section className="controls-section">
+          <div className="search-bar-wrapper">
+            {/* SVG Search Icon */}
+            <svg className="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+            <input 
+              type="text" 
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Rechercher un plat (ex: Poulet, Royale...)" 
+              aria-label="Rechercher un plat"
+            />
+            {searchQuery && (
+              <button onClick={() => setSearchQuery('')} className="clear-btn" aria-label="Effacer la recherche">&times;</button>
+            )}
           </div>
 
-          {/* Category Tabs Filter */}
-          <div className="menu-tabs">
-            <button 
-              className={`tab-btn ${activeTab === 'sauce-tomate' ? 'active' : ''}`}
-              onClick={() => setActiveTab('sauce-tomate')}
+          {/* SORT FILTER */}
+          <div className="filter-wrapper">
+            <label htmlFor="sort-select" className="filter-label">Trier par :</label>
+            <select 
+              id="sort-select" 
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+              aria-label="Trier le menu"
             >
-              Pizzas Sauce Tomate
-            </button>
-            <button 
-              className={`tab-btn ${activeTab === 'creme-fraiche' ? 'active' : ''}`}
-              onClick={() => setActiveTab('creme-fraiche')}
-            >
-              Pizzas Crème Fraîche
-            </button>
-            <button 
-              className={`tab-btn ${activeTab === 'tacos-plats' ? 'active' : ''}`}
-              onClick={() => setActiveTab('tacos-plats')}
-            >
-              Plats, Tacos & Burgers
-            </button>
-            <button 
-              className={`tab-btn ${activeTab === 'sandwiches' ? 'active' : ''}`}
-              onClick={() => setActiveTab('sandwiches')}
-            >
-              Sandwiches & Libanais
-            </button>
+              <option value="default">Ordre du menu</option>
+              <option value="price-asc">Prix : croissant</option>
+              <option value="price-desc">Prix : décroissant</option>
+            </select>
           </div>
+        </section>
 
-          {/* ==================== VUE IMAGE MENU BOARD (Default & 100% Authentic) ==================== */}
-          {menuViewMode === 'image' && (
-            <div style={{ maxWidth: '900px', margin: '0 auto' }}>
-              <div style={{ 
-                background: 'var(--bg-card)', 
-                border: '1px solid var(--border)', 
-                borderRadius: '8px', 
-                padding: '16px',
-                boxShadow: 'var(--shadow)',
-                textAlign: 'center',
-                position: 'relative'
-              }}>
-                <div style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  marginBottom: '16px',
-                  flexWrap: 'wrap',
-                  gap: '12px'
-                }}>
-                  <h4 style={{ fontSize: '1.2rem', textTransform: 'uppercase', color: 'var(--text-primary)' }}>
-                    Menu : {getMenuTitle(activeTab)}
-                  </h4>
-                  <div style={{ display: 'flex', gap: '8px' }}>
-                    <button 
-                      onClick={() => setLightboxOpen(true)}
-                      className="btn btn-outline-gold" 
-                      style={{ padding: '8px 14px', fontSize: '0.8rem' }}
-                    >
-                      <ZoomIn size={14} />
-                      Agrandir en Grand Écran
-                    </button>
-                    <a 
-                      href={MENU_BOARD_IMAGES[activeTab]} 
-                      download={`${activeTab}-menu.jpg`}
-                      className="btn btn-secondary" 
-                      style={{ padding: '8px 14px', fontSize: '0.8rem' }}
-                    >
-                      <Download size={14} />
-                      Télécharger
-                    </a>
-                  </div>
-                </div>
+        {/* NAVIGATION TABS */}
+        <nav className="category-tabs" aria-label="Catégories du menu">
+          {categories.map(cat => (
+            <button
+              key={cat.id}
+              onClick={() => setSelectedCategory(cat.id)}
+              className={selectedCategory === cat.id ? 'tab-btn active' : 'tab-btn'}
+            >
+              {cat.name}
+            </button>
+          ))}
+        </nav>
 
-                {/* Main Menu Board Image Display with interactive zoom hover indicator */}
+        {/* MENU GRID */}
+        <section className="menu-grid-section">
+          {sortedItems.length > 0 ? (
+            <div className="menu-grid">
+              {sortedItems.map(item => (
                 <div 
-                  onClick={() => setLightboxOpen(true)}
-                  style={{
-                    position: 'relative',
-                    cursor: 'zoom-in',
-                    borderRadius: '4px',
-                    overflow: 'hidden',
-                    border: '1px solid var(--border)',
-                    backgroundColor: 'var(--bg-secondary)'
-                  }}
+                  key={item.id} 
+                  className="menu-card"
+                  onClick={() => openModal(item)}
                 >
-                  <img 
-                    src={MENU_BOARD_IMAGES[activeTab]} 
-                    alt={`Carte Pizza Mazouni - ${activeTab}`} 
-                    style={{
-                      width: '100%',
-                      height: 'auto',
-                      maxHeight: '650px',
-                      objectFit: 'contain',
-                      display: 'block',
-                      transition: 'transform 0.3s ease'
-                    }}
-                  />
-                  <div style={{
-                    position: 'absolute',
-                    bottom: '16px',
-                    right: '16px',
-                    backgroundColor: 'rgba(0,0,0,0.6)',
-                    color: '#fff',
-                    padding: '6px 12px',
-                    borderRadius: '4px',
-                    fontSize: '0.8rem',
-                    pointerEvents: 'none',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '6px'
-                  }}>
-                    <Maximize2 size={12} />
-                    Cliquez pour zoomer
+                  <div className="menu-card-img-container">
+                    <img src={item.image} alt={item.name} className="menu-card-img" loading="lazy" />
                   </div>
-                </div>
-                
-                <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginTop: '12px' }}>
-                  * Les images et les tarifs affichés ci-dessus sont les originaux imprimés de notre pizzeria.
-                </p>
-              </div>
-            </div>
-          )}
-
-          {/* ==================== VUE TEXT LIST MENU BOARD WITH SEARCH ==================== */}
-          {menuViewMode === 'list' && (
-            <>
-              {/* Search input */}
-              <div style={{
-                maxWidth: '480px',
-                margin: '0 auto 40px',
-                position: 'relative'
-              }}>
-                <Search style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} size={18} />
-                <input 
-                  type="text"
-                  placeholder="Rechercher un plat (ex: Margherita, Tacos...)"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  style={{
-                    width: '100%',
-                    padding: '14px 16px 14px 48px',
-                    borderRadius: '4px',
-                    border: '1px solid var(--border)',
-                    background: 'var(--bg-card)',
-                    color: 'var(--text-primary)',
-                    fontSize: '0.95rem',
-                    outline: 'none',
-                    transition: 'var(--transition)'
-                  }}
-                />
-              </div>
-
-              {/* Grid of Cards */}
-              <div className="menu-grid">
-                {filteredMenu.map((item) => (
-                  <article className="menu-card" key={item.id}>
-                    <div className="menu-card-content" style={{ paddingTop: '24px' }}>
-                      <div className="menu-card-header">
-                        <h4 className="menu-card-title">{item.name}</h4>
-                        <span className="menu-card-price">{item.price} DA</span>
-                      </div>
-                      <p className="menu-card-ingredients">{item.ingredients}</p>
-                      <div className="menu-card-footer" style={{ marginTop: 'auto' }}>
-                        <span className="menu-card-category">
-                          {item.category === 'sauce-tomate' && 'Base Tomate'}
-                          {item.category === 'creme-fraiche' && 'Base Crème'}
-                          {item.category === 'sandwiches' && 'Sandwich & Wrap'}
-                          {item.category === 'tacos-plats' && 'Plat & Fast-Food'}
-                        </span>
-                        <button onClick={() => setOrderModalItem(item)} className="menu-card-order-btn">
-                          Commander
-                          <ChevronRight size={16} />
-                        </button>
-                      </div>
+                  <div className="menu-card-info">
+                    <div className="menu-card-header">
+                      <h3 className="menu-card-title">{item.name}</h3>
+                      <span className="menu-card-price">{item.price} DA</span>
                     </div>
-                  </article>
-                ))}
-              </div>
-
-              {filteredMenu.length === 0 && (
-                <div style={{ textAlign: 'center', padding: '40px 0', color: 'var(--text-secondary)' }}>
-                  Aucun élément trouvé pour votre recherche.
+                    <p className="menu-card-ingredients">{item.ingredients}</p>
+                  </div>
                 </div>
-              )}
-            </>
-          )}
-
-          {/* Dynamic Extra Detail Layout for Mega Pizza and Extras matching parent images */}
-          {(activeTab === 'sauce-tomate' || activeTab === 'creme-fraiche') && (
-            <div className="extra-options-box">
-              <h4 className="extra-options-title">Options Méga & Suppléments</h4>
-              <div className="extra-grid">
-                <div className="extra-card">
-                  <h5>Méga Pizza</h5>
-                  <span className="price">1200 DA</span>
-                </div>
-                <div className="extra-card">
-                  <h5>Méga Au Choix</h5>
-                  <span className="price">1500 DA</span>
-                </div>
-                <div className="extra-card">
-                  <h5>Bordure Fromage</h5>
-                  <span className="price">1800 DA</span>
-                </div>
-                <div className="extra-card">
-                  <h5>Au Choix Bordure</h5>
-                  <span className="price">2000 DA</span>
-                </div>
-                <div className="extra-card">
-                  <h5>Extra Fromage</h5>
-                  <span className="price">2500 DA</span>
-                </div>
-              </div>
-              <div style={{ textAlign: 'center', marginTop: '24px', color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
-                <strong>Suppléments :</strong> Fromage Blanc (+50 DA) | Camembert (+100 DA) | Œuf (+50 DA)
-              </div>
+              ))}
+            </div>
+          ) : (
+            /* EMPTY STATE */
+            <div className="no-results">
+              <svg className="empty-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+              <p>Aucun plat ne correspond à votre recherche.</p>
+              <button onClick={resetSearch} className="btn-reset">Voir tout le menu</button>
             </div>
           )}
+        </section>
+      </main>
 
-          {activeTab === 'sandwiches' && (
-            <div className="extra-options-box" style={{ textAlign: 'center' }}>
-              <h4 className="extra-options-title" style={{ fontSize: '1.4rem', marginBottom: '10px' }}>Suppléments pour vos Sandwiches</h4>
-              <p style={{ color: 'var(--text-secondary)' }}>
-                Fromage Blanc : <strong>50 DA</strong> &nbsp;|&nbsp; Camembert : <strong>100 DA</strong> &nbsp;|&nbsp; Œuf : <strong>50 DA</strong>
-              </p>
-            </div>
-          )}
-        </div>
-      </section>
-
-      {/* Localisation & Contact Section */}
-      <section id="location" className="location">
-        <div className="container">
-          <div className="location-grid">
-            <div className="contact-card">
-              <h3>Venez nous voir !</h3>
-              <p className="contact-subtitle">Retrouvez-nous pour déguster nos spécialités ou passez votre commande par téléphone.</p>
-              
-              <div className="contact-info-list">
-                <div className="contact-info-item">
-                  <div className="contact-info-icon">
-                    <MapPin size={22} />
-                  </div>
-                  <div className="contact-info-text">
-                    <h6>Adresse</h6>
-                    <p>À côté de la mosquée Ibn Badis EPLF<br />Coordonnées GPS: 35.3502301, 1.3378714<br />Tiaret, Algérie</p>
-                  </div>
-                </div>
-
-                <div className="contact-info-item">
-                  <div className="contact-info-icon">
-                    <Phone size={22} />
-                  </div>
-                  <div className="contact-info-text">
-                    <h6>Téléphone (Commande / Info)</h6>
-                    <a href="tel:0773053626" style={{ fontSize: '1.25rem', fontWeight: 'bold', color: 'var(--accent)' }}>
-                      0773053626
-                    </a>
-                  </div>
-                </div>
-
-                <div className="contact-info-item">
-                  <div className="contact-info-icon">
-                    <Clock size={22} />
-                  </div>
-                  <div className="contact-info-text">
-                    <h6>Horaires d'Ouverture</h6>
-                    <p>Tous les jours : 11:30 – 23:30</p>
-                  </div>
+      {/* QUICK OVERVIEW MODAL */}
+      {isModalOpen && selectedItem && (
+        <div className="modal" role="dialog" aria-modal="true">
+          <div className="modal-overlay" onClick={closeModal}></div>
+          <div className="modal-content">
+            <button className="modal-close" onClick={closeModal} aria-label="Fermer">&times;</button>
+            <div className="modal-body">
+              <div className="modal-img-container">
+                <img src={selectedItem.image} alt={selectedItem.name} />
+              </div>
+              <div className="modal-info">
+                <h2>{selectedItem.name}</h2>
+                <span className="modal-price">{selectedItem.price} DA</span>
+                <p className="ingredients-label">Ingrédients :</p>
+                <p className="modal-ingredients">{selectedItem.ingredients}</p>
+                <div className="modal-actions">
+                  <a href="tel:0773053626" className="btn-order">
+                    <svg className="phone-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.94.725l.548 2.2a1 1 0 01-.321.988l-1.305.98a10.582 10.582 0 004.872 4.872l.98-1.305a1 1 0 01.988-.321l2.2.548a1 1 0 01.725.94V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                    </svg>
+                    Commander maintenant
+                  </a>
                 </div>
               </div>
-
-              <a href="tel:0773053626" className="btn btn-primary" style={{ width: '100%' }}>
-                <Phone size={18} />
-                Appeler pour commander
-              </a>
-              <a 
-                href="https://www.google.com/maps?q=35.3502301,1.3378714" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="btn btn-secondary" 
-                style={{ width: '100%', marginTop: '12px' }}
-              >
-                <Map size={18} />
-                Itinéraire sur Google Maps
-              </a>
-            </div>
-
-            {/* Google Maps embed code */}
-            <div className="map-container">
-              <iframe 
-                src="https://www.google.com/maps?q=35.3502301,1.3378714&z=16&output=embed" 
-                className="map-iframe"
-                title="Google Maps Location of Pizza Mazouni"
-                allowFullScreen="" 
-                loading="lazy" 
-                referrerPolicy="no-referrer-when-downgrade"
-              ></iframe>
             </div>
           </div>
         </div>
-      </section>
+      )}
 
-      {/* Footer */}
-      <footer className="footer">
-        <div className="container">
-          <div className="footer-logo">
-            Pizza <span>Mazouni</span>
-          </div>
-          <p className="footer-tagline">
-            L'authenticité et le goût inimitable de la pizza traditionnelle préparée avec soin à Tiaret.
-          </p>
-          <ul className="footer-links">
-            <li><a href="#home" onClick={(e) => { e.preventDefault(); handleNavClick('home'); }}>Accueil</a></li>
-            <li><a href="#about" onClick={(e) => { e.preventDefault(); handleNavClick('about'); }}>À Propos</a></li>
-            <li><a href="#menu" onClick={(e) => { e.preventDefault(); handleNavClick('menu'); }}>Menu</a></li>
-            <li><a href="#location" onClick={(e) => { e.preventDefault(); handleNavClick('location'); }}>Localisation</a></li>
-          </ul>
-          <hr className="footer-divider" />
-          <div className="footer-bottom">
-            <p>© {new Date().getFullYear()} Pizza Mazouni. Tous droits réservés.</p>
-            <div className="footer-bottom-links">
-              <span style={{ marginRight: '10px' }}>Tél : <a href="tel:0773053626" style={{ color: 'var(--text-secondary)', textDecoration: 'none' }}>0773053626</a></span>
-              <span>Conçu avec passion</span>
-            </div>
-          </div>
+      {/* FLOATING CTA BUTTON */}
+      <a href="tel:0773053626" className="floating-cta" title="Appeler pour commander">
+        <svg className="phone-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.94.725l.548 2.2a1 1 0 01-.321.988l-1.305.98a10.582 10.582 0 004.872 4.872l.98-1.305a1 1 0 01.988-.321l2.2.548a1 1 0 01.725.94V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+        </svg>
+        <span>Commander : 0773053626</span>
+      </a>
+
+      {/* FOOTER */}
+      <footer className="app-footer">
+        <div className="footer-info">
+          <h3>Pizza Mazouni</h3>
+          <p className="tagline">Le goût du fait maison, le secret de notre tradition ✨</p>
+          <p className="phone">Téléphone : 0773053626</p>
+          <p className="partner">À côté de la mosquée Ibn Badis EPLF, Tiaret</p>
+        </div>
+        <div className="footer-qr">
+          <img src="/code_qr.png" alt="QR Code du Menu" className="footer-qr-img" />
+          <span>Scanner pour partager</span>
         </div>
       </footer>
-
-      {/* Lightbox Modal (For viewing original menu board images in large zoom format) */}
-      {lightboxOpen && (
-        <div style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          backgroundColor: 'rgba(239, 230, 216, 0.98)',
-          zIndex: 99999,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: '24px'
-        }} onClick={() => setLightboxOpen(false)}>
-          <button 
-            style={{ 
-              position: 'absolute', 
-              top: '24px', 
-              right: '24px', 
-              background: 'rgba(255,255,255,0.05)', 
-              border: '1px solid var(--border)', 
-              color: 'var(--text-primary)', 
-              width: '44px',
-              height: '44px',
-              borderRadius: '50%',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              boxShadow: 'var(--shadow)'
-            }}
-            onClick={() => setLightboxOpen(false)}
-          >
-            <X size={24} />
-          </button>
-          
-          <h4 style={{ 
-            color: 'var(--accent)', 
-            marginBottom: '20px', 
-            textTransform: 'uppercase', 
-            fontSize: '1.4rem', 
-            letterSpacing: '0.05em' 
-          }}>
-            {getMenuTitle(activeTab)}
-          </h4>
-          
-          <div 
-            style={{
-              maxWidth: '95vw',
-              maxHeight: '80vh',
-              overflow: 'auto',
-              borderRadius: '8px',
-              border: '1px solid var(--border)',
-              backgroundColor: 'var(--bg-card)',
-              boxShadow: 'var(--shadow)',
-              cursor: 'zoom-out'
-            }}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <img 
-              src={MENU_BOARD_IMAGES[activeTab]} 
-              alt={`Menu Agrandi - ${activeTab}`} 
-              style={{
-                display: 'block',
-                maxWidth: '100%',
-                height: 'auto',
-                maxHeight: '80vh',
-                margin: '0 auto'
-              }}
-              onClick={() => setLightboxOpen(false)}
-            />
-          </div>
-          
-          <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginTop: '20px', textAlign: 'center' }}>
-            Pincez l'écran ou double-cliquez pour zoomer dans l'image sur mobile. &nbsp;|&nbsp;
-            <a 
-              href={MENU_BOARD_IMAGES[activeTab]} 
-              download={`${activeTab}-menu.jpg`}
-              style={{ color: 'var(--accent)', textDecoration: 'underline', fontWeight: 600 }}
-            >
-              Télécharger l'image en pleine résolution
-            </a>
-          </p>
-        </div>
-      )}
-
-      {/* Order Modal (Simulated Order Experience) */}
-      {orderModalItem && (
-        <div style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          backgroundColor: 'rgba(58, 36, 24, 0.6)',
-          zIndex: 9999,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: '20px'
-        }} onClick={() => setOrderModalItem(null)}>
-          <div style={{
-            background: 'var(--bg-card)',
-            border: '1px solid var(--border)',
-            padding: '30px',
-            borderRadius: '8px',
-            maxWidth: '480px',
-            width: '100%',
-            position: 'relative',
-            boxShadow: 'var(--shadow)'
-          }} onClick={(e) => e.stopPropagation()}>
-            <button 
-              style={{ position: 'absolute', top: '16px', right: '16px', background: 'none', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer' }}
-              onClick={() => setOrderModalItem(null)}
-            >
-              <X size={20} />
-            </button>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', color: 'var(--accent)', marginBottom: '16px' }}>
-              <Flame size={24} />
-              <h4 style={{ fontSize: '1.4rem', textTransform: 'uppercase', margin: 0 }}>Commander par Téléphone</h4>
-            </div>
-            <p style={{ color: 'var(--text-secondary)', marginBottom: '20px', fontSize: '0.95rem' }}>
-              Pour commander votre <strong>{orderModalItem.name}</strong> ({orderModalItem.price} DA) ou composer votre menu, appelez-nous directement. Nous préparons votre commande immédiatement pour une dégustation sur place ou à emporter !
-            </p>
-            
-            <div style={{
-              background: 'var(--bg-secondary)',
-              border: '1px solid var(--border)',
-              padding: '16px',
-              borderRadius: '6px',
-              textAlign: 'center',
-              marginBottom: '24px'
-            }}>
-              <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)', display: 'block', textTransform: 'uppercase', marginBottom: '4px' }}>Numéro d'appel Direct</span>
-              <a href="tel:0773053626" style={{ fontSize: '1.6rem', fontWeight: 'bold', color: 'var(--accent)', textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
-                <Phone size={24} />
-                0773053626
-              </a>
-            </div>
-
-            <div style={{ display: 'flex', gap: '12px' }}>
-              <a href="tel:0773053626" className="btn btn-primary" style={{ flexGrow: 1 }}>
-                Appeler
-              </a>
-              <button className="btn btn-secondary" onClick={() => setOrderModalItem(null)} style={{ flexGrow: 1 }}>
-                Fermer
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-    </>
+    </div>
   );
 }
-
-export default App;
