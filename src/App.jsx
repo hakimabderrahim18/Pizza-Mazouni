@@ -1,555 +1,547 @@
 import React, { useState, useEffect } from 'react';
 
-// Extracted Pizza Mazouni menu database
+// Extracted Pizza Mazouni menu database with individual item cropped images
 const MENU_ITEMS = [
-  // ==================== SAUCE TOMATE PIZZAS (Image 3 & Image 2 top row) ====================
-  {
-    id: 'tom-margherita',
-    name: 'Margherita Classique',
-    ingredients: 'Sauce Tomate, Fromage, Olive.',
-    price: 200,
-    category: 'sauce-tomate',
-    image: '/m2_orange.png'
+  {
+    "id": "tom-margherita",
+    "name": "Margherita Classique",
+    "ingredients": "Sauce Tomate, Fromage, Olive.",
+    "price": 200,
+    "category": "sauce-tomate",
+    "image": "/items/tom_margherita.png"
+  },
+  {
+    "id": "tom-royale",
+    "name": "Royale",
+    "ingredients": "Sauce Tomate, Fromage, Olive, Viande hachée.",
+    "price": 250,
+    "category": "sauce-tomate",
+    "image": "/items/tom_royale.png"
+  },
+  {
+    "id": "tom-napolitaine",
+    "name": "Napolitaine",
+    "ingredients": "Sauce Tomate, Fromage, Olive, Viande hachée, Maïs.",
+    "price": 300,
+    "category": "sauce-tomate",
+    "image": "/items/tom_napolitaine.png"
+  },
+  {
+    "id": "tom-chef",
+    "name": "Chef",
+    "ingredients": "Sauce Tomate, Fromage, Olive, Poulet, Viande hachée.",
+    "price": 350,
+    "category": "sauce-tomate",
+    "image": "/items/tom_chef.png"
   },
-  {
-    id: 'tom-royale',
-    name: 'Royale',
-    ingredients: 'Sauce Tomate, Fromage, Olive, Viande hachée.',
-    price: 250,
-    category: 'sauce-tomate',
-    image: '/m2_orange.png'
+  {
+    "id": "tom-vegetarienne-c",
+    "name": "Végétarienne Classique",
+    "ingredients": "Sauce Tomate, Fromage, Olive, Tomate, Oignon, Maïs, Poivron.",
+    "price": 350,
+    "category": "sauce-tomate",
+    "image": "/items/tom_vegetarienne_c.png"
   },
-  {
-    id: 'tom-napolitaine',
-    name: 'Napolitaine',
-    ingredients: 'Sauce Tomate, Fromage, Olive, Viande hachée, Maïs.',
-    price: 300,
-    category: 'sauce-tomate',
-    image: '/m2_orange.png'
+  {
+    "id": "tom-viande-hachee",
+    "name": "Viande Hachée",
+    "ingredients": "Sauce Tomate, Fromage, Olive, Viande hachée.",
+    "price": 400,
+    "category": "sauce-tomate",
+    "image": "/items/tom_viande_hachee.png"
   },
-  {
-    id: 'tom-chef',
-    name: 'Chef',
-    ingredients: 'Sauce Tomate, Fromage, Olive, Poulet, Viande hachée.',
-    price: 350,
-    category: 'sauce-tomate',
-    image: '/m2_orange.png'
+  {
+    "id": "tom-au-thon",
+    "name": "Au Thon",
+    "ingredients": "Sauce Tomate, Fromage, Olive, Thon.",
+    "price": 400,
+    "category": "sauce-tomate",
+    "image": "/items/tom_au_thon.png"
   },
-  {
-    id: 'tom-vegetarienne-c',
-    name: 'Végétarienne Classique',
-    ingredients: 'Sauce Tomate, Fromage, Olive, Tomate, Oignon, Maïs, Poivron.',
-    price: 350,
-    category: 'sauce-tomate',
-    image: '/m2_orange.png'
-  },
-  {
-    id: 'tom-viande-hachee',
-    name: 'Viande Hachée',
-    ingredients: 'Sauce Tomate, Fromage, Olive, Viande hachée.',
-    price: 400,
-    category: 'sauce-tomate',
-    image: '/m2_orange.png'
-  },
-  {
-    id: 'tom-au-thon',
-    name: 'Au Thon',
-    ingredients: 'Sauce Tomate, Fromage, Olive, Thon.',
-    price: 400,
-    category: 'sauce-tomate',
-    image: '/m2_orange.png'
-  },
-  {
-    id: 'tom-poulet-c',
-    name: 'Poulet Classique',
-    ingredients: 'Sauce Tomate, Fromage, Olive, Poulet.',
-    price: 400,
-    category: 'sauce-tomate',
-    image: '/m2_orange.png'
-  },
-  {
-    id: 'tom-kebab-c',
-    name: 'Kebab Classique',
-    ingredients: 'Sauce Tomate, Fromage, Olive, Kebab.',
-    price: 400,
-    category: 'sauce-tomate',
-    image: '/m2_orange.png'
-  },
-  {
-    id: 'tom-merguez-c',
-    name: 'Merguez Classique',
-    ingredients: 'Sauce Tomate, Fromage, Olive, Merguez.',
-    price: 400,
-    category: 'sauce-tomate',
-    image: '/m2_orange.png'
-  },
-  {
-    id: 'tom-speciale-c',
-    name: 'Spéciale Classique',
-    ingredients: 'Sauce Tomate, Fromage, Olive, Poulet, Viande Hachée, Maïs.',
-    price: 400,
-    category: 'sauce-tomate',
-    image: '/m2_orange.png'
-  },
-  {
-    id: 'tom-4saisons',
-    name: '4 Saisons',
-    ingredients: 'Sauce Tomate, Fromage, Olive, Merguez, Viande Hachée, Œuf.',
-    price: 400,
-    category: 'sauce-tomate',
-    image: '/m2_orange.png'
-  },
-  {
-    id: 'tom-mexicaine',
-    name: 'Mexicaine',
-    ingredients: 'Sauce Tomate, Fromage, Olive, Poulet, Viande Hachée, Thon, Maïs.',
-    price: 450,
-    category: 'sauce-tomate',
-    image: '/m2_orange.png'
-  },
-  {
-    id: 'tom-maison',
-    name: 'Maison Sauce Tomate',
-    ingredients: 'Sauce Tomate, Fromage, Olive, Viande hachée, Poulet, Kebab, Thon, Maïs, Fromage blanc.',
-    price: 500,
-    category: 'sauce-tomate',
-    image: '/m2_orange.png'
-  },
-  {
-    id: 'tom-4fromages-c',
-    name: '4 Fromages Classique',
-    ingredients: 'Sauce Tomate, Fromage Rouge, Gouda, Gruyère, Canserbort, Olive.',
-    price: 550,
-    category: 'sauce-tomate',
-    image: '/m2_orange.png'
-  },
-  // Added from Image 2 top row (also tomato bases)
-  {
-    id: 'tom-fermier',
-    name: 'Le Fermier',
-    ingredients: 'Sauce Tomate, Fromage, Olive, Poulet fumé, Camembert, Bœuf fumé, Champignon.',
-    price: 550,
-    category: 'sauce-tomate',
-    badge: 'Spécial',
-    image: '/m1_orange.png'
-  },
-  {
-    id: 'tom-souffle',
-    name: 'Soufflé',
-    ingredients: 'Sauce Tomate, Fromage, Olive, Kebab, Viande hachée, Fromage Blanc, Mozzarella.',
-    price: 700,
-    category: 'sauce-tomate',
-    badge: 'Chaud',
-    image: '/m1_orange.png'
-  },
-  {
-    id: 'tom-reine',
-    name: 'Reine',
-    ingredients: 'Sauce tomate, Fromage, Poulet, Kebab, Viande Hachée, Camembert, Mozzarella.',
-    price: 750,
-    category: 'sauce-tomate',
-    image: '/m1_orange.png'
-  },
-  {
-    id: 'tom-super',
-    name: 'Super',
-    ingredients: 'Sauce Tomate, Fromage, Olive, Poulet, Viande hachée, Thon, Maïs, Bordure fromage blanc, Mozzarella.',
-    price: 750,
-    category: 'sauce-tomate',
-    image: '/m1_orange.png'
-  },
-  {
-    id: 'tom-extra-fromage',
-    name: 'Extra Fromage',
-    ingredients: 'Sauce Tomate, Fromage, Olive, Poulet, Merguez, Viande hachée, Kebab, Fromage blanc, Gruyère, Fromage rouge, Camembert, Mozzarella.',
-    price: 800,
-    category: 'sauce-tomate',
-    badge: 'Maxi Fromage',
-    image: '/m1_orange.png'
-  },
-  {
-    id: 'tom-istanbul',
-    name: 'Istanbul',
-    ingredients: 'Sauce Tomate, Fromage, Olive, Poulet, Viande hachée, Poivron, Merguez, Kebab, Mozzarella.',
-    price: 800,
-    category: 'sauce-tomate',
-    image: '/m1_orange.png'
-  },
-  {
-    id: 'tom-gruyere',
-    name: 'Gruyère',
-    ingredients: 'Sauce Tomate, Fromage, Olive, Viande hachée, Merguez, Kebab, Gruyère, Mozzarella.',
-    price: 800,
-    category: 'sauce-tomate',
-    image: '/m1_orange.png'
-  },
-
-  // ==================== CRÈME FRAÎCHE PIZZAS (Image 2 middle row) ====================
-  {
-    id: 'crm-poulet',
-    name: 'Poulet Crème',
-    ingredients: 'Crème Fraîche, Fromage, Olive, Poulet.',
-    price: 500,
-    category: 'creme-fraiche',
-    image: '/m1_orange.png'
-  },
-  {
-    id: 'crm-kebab',
-    name: 'Kebab Crème',
-    ingredients: 'Crème Fraîche, Fromage, Olive, Kebab.',
-    price: 500,
-    category: 'creme-fraiche',
-    image: '/m1_orange.png'
-  },
-  {
-    id: 'crm-maison',
-    name: 'Maison Crème',
-    ingredients: 'Crème Fraîche, Fromage, Olive, Viande hachée, Poulet, Kebab, Thon, Maïs, Fromage Blanc.',
-    price: 600,
-    category: 'creme-fraiche',
-    badge: 'Spécial Maison',
-    image: '/m1_orange.png'
-  },
-  {
-    id: 'crm-6fromages',
-    name: '6 Fromages',
-    ingredients: 'Crème Fraîche, Olive, Cheddar, Fromage blanc, Fromage Rouge, Mozzarella, Gouda, Gruyère.',
-    price: 750,
-    category: 'creme-fraiche',
-    badge: 'Crémeux',
-    image: '/m1_orange.png'
-  },
-
-  // ==================== SANDWICHES, CHEESE & LIBANAIS (Image 4) ====================
-  {
-    id: 'snd-kebab',
-    name: 'Sandwich Kebab',
-    ingredients: 'Pain maison chaud, viande kebab grillée, frites, salade, sauces.',
-    price: 300,
-    category: 'sandwiches',
-    image: '/m3_orange.png'
-  },
-  {
-    id: 'snd-poulet',
-    name: 'Sandwich Poulet',
-    ingredients: 'Pain maison, émincé de poulet mariné, frites, salade, sauces.',
-    price: 300,
-    category: 'sandwiches',
-    image: '/m3_orange.png'
-  },
-  {
-    id: 'snd-kebda',
-    name: 'Sandwich Kebda',
-    ingredients: 'Pain maison, foie épicé sauté, frites, salade, sauces.',
-    price: 350,
-    category: 'sandwiches',
-    image: '/m3_orange.png'
-  },
-  {
-    id: 'snd-crispy',
-    name: 'Sandwich Crispy',
-    ingredients: 'Pain maison, filet de poulet croustillant pané, frites, salade, sauces.',
-    price: 350,
-    category: 'sandwiches',
-    image: '/m3_orange.png'
-  },
-  {
-    id: 'snd-merguez',
-    name: 'Sandwich Merguez',
-    ingredients: 'Pain maison, merguez grillées, frites, salade, sauces.',
-    price: 350,
-    category: 'sandwiches',
-    image: '/m3_orange.png'
-  },
-  {
-    id: 'snd-viande-hachee',
-    name: 'Sandwich Viande Hachée',
-    ingredients: 'Pain maison, viande hachée assaisonnée, frites, salade, sauces.',
-    price: 350,
-    category: 'sandwiches',
-    image: '/m3_orange.png'
-  },
-  {
-    id: 'snd-mixte',
-    name: 'Sandwich Mixte',
-    ingredients: 'Pain maison, mélange généreux de viandes au choix, frites, salade, sauces.',
-    price: 450,
-    category: 'sandwiches',
-    badge: 'Gros Appétit',
-    image: '/m3_orange.png'
-  },
-  {
-    id: 'chs-poulet',
-    name: 'Cheese Poulet',
-    ingredients: 'Pain de mie toasté grillé, fromage fondant, poulet mariné, frites.',
-    price: 300,
-    category: 'sandwiches',
-    image: '/m3_orange.png'
-  },
-  {
-    id: 'chs-kebab',
-    name: 'Cheese Kebab',
-    ingredients: 'Pain de mie toasté, fromage fondant, viande kebab grillée, frites.',
-    price: 350,
-    category: 'sandwiches',
-    image: '/m3_orange.png'
-  },
-  {
-    id: 'chs-kebda',
-    name: 'Cheese Kebda',
-    ingredients: 'Pain de mie toasté, fromage fondant, foie épicé sauté, frites.',
-    price: 350,
-    category: 'sandwiches',
-    image: '/m3_orange.png'
-  },
-  {
-    id: 'chs-crispy',
-    name: 'Cheese Crispy',
-    ingredients: 'Pain de mie toasté, fromage fondant, poulet croustillant pané, frites.',
-    price: 350,
-    category: 'sandwiches',
-    image: '/m3_orange.png'
-  },
-  {
-    id: 'chs-merguez',
-    name: 'Cheese Merguez',
-    ingredients: 'Pain de mie toasté, fromage fondant, merguez grillées, frites.',
-    price: 350,
-    category: 'sandwiches',
-    image: '/m3_orange.png'
-  },
-  {
-    id: 'chs-viande-hachee',
-    name: 'Cheese Viande Hachée',
-    ingredients: 'Pain de mie toasté, fromage fondant, viande hachée, frites.',
-    price: 350,
-    category: 'sandwiches',
-    image: '/m3_orange.png'
-  },
-  {
-    id: 'chs-mixte',
-    name: 'Cheese Mixte',
-    ingredients: 'Pain de mie toasté, fromage fondant, mélange de viandes, frites.',
-    price: 450,
-    category: 'sandwiches',
-    image: '/m3_orange.png'
-  },
-  {
-    id: 'lib-poulet',
-    name: 'Libanais Poulet',
-    ingredients: 'Pain libanais enroulé, poulet émincé, frites, salade, crème d\'ail.',
-    price: 400,
-    category: 'sandwiches',
-    image: '/m3_orange.png'
-  },
-  {
-    id: 'lib-kebab',
-    name: 'Libanais Kebab',
-    ingredients: 'Pain libanais enroulé, viande kebab grillée, frites, salade, sauces.',
-    price: 400,
-    category: 'sandwiches',
-    image: '/m3_orange.png'
-  },
-  {
-    id: 'lib-crispy',
-    name: 'Libanais Crispy',
-    ingredients: 'Pain libanais, poulet croustillant pané, frites, salade, sauces.',
-    price: 450,
-    category: 'sandwiches',
-    image: '/m3_orange.png'
-  },
-  {
-    id: 'lib-viande-hachee',
-    name: 'Libanais Viande Hachée',
-    ingredients: 'Pain libanais, viande hachée assaisonnée, frites, salade, sauces.',
-    price: 450,
-    category: 'sandwiches',
-    image: '/m3_orange.png'
-  },
-  {
-    id: 'lib-merguez',
-    name: 'Libanais Merguez',
-    ingredients: 'Pain libanais, merguez dorées, frites, salade, sauces.',
-    price: 450,
-    category: 'sandwiches',
-    image: '/m3_orange.png'
-  },
-  {
-    id: 'lib-mixte',
-    name: 'Libanais Mixte',
-    ingredients: 'Pain libanais, mélange de viandes grillées, frites, salade, sauces.',
-    price: 500,
-    category: 'sandwiches',
-    badge: 'Populaire',
-    image: '/m3_orange.png'
-  },
-
-  // ==================== PLATS, TACOS & BURGERS (Image 5) ====================
-  {
-    id: 'plt-escalope',
-    name: 'Plat Escalope',
-    ingredients: 'Assiette d\'escalope de poulet tendre grillée, frites, salade, sauces.',
-    price: 550,
-    category: 'tacos-plats',
-    image: '/m4_orange.png'
-  },
-  {
-    id: 'plt-steak',
-    name: 'Plat Steak Haché',
-    ingredients: 'Assiette de steak haché de bœuf grillé, frites dorées, salade, sauces.',
-    price: 550,
-    category: 'tacos-plats',
-    image: '/m4_orange.png'
-  },
-  {
-    id: 'plt-merguez',
-    name: 'Plat Merguez',
-    ingredients: 'Assiette de merguez grillées au four traditionnel, frites dorées, salade, sauces.',
-    price: 550,
-    category: 'tacos-plats',
-    image: '/m4_orange.png'
-  },
-  {
-    id: 'plt-kebab',
-    name: 'Plat Kebab',
-    ingredients: 'Assiette de viande kebab marinée et grillée, frites dorées, salade, sauces.',
-    price: 600,
-    category: 'tacos-plats',
-    image: '/m4_orange.png'
-  },
-  {
-    id: 'plt-crispy',
-    name: 'Plat Crispy',
-    ingredients: 'Assiette de filets de poulet croustillants panés, frites dorées, salade, sauces.',
-    price: 650,
-    category: 'tacos-plats',
-    image: '/m4_orange.png'
-  },
-  {
-    id: 'plt-kebda',
-    name: 'Plat Kebda',
-    ingredients: 'Assiette de foie épicé sauté aux oignons, frites dorées, salade, sauces.',
-    price: 650,
-    category: 'tacos-plats',
-    image: '/m4_orange.png'
-  },
-  {
-    id: 'plt-mixte',
-    name: 'Plat Mixte',
-    ingredients: 'Assiette royale avec un assortiment de viandes au choix, frites, salade, sauces.',
-    price: 700,
-    category: 'tacos-plats',
-    badge: 'Complet',
-    image: '/m4_orange.png'
-  },
-  {
-    id: 'tco-kebab',
-    name: 'Tacos Kebab',
-    ingredients: 'Galette de blé grillée, viande kebab, frites dorées, sauce fromagère onctueuse.',
-    price: 450,
-    category: 'tacos-plats',
-    image: '/m4_orange.png'
-  },
-  {
-    id: 'tco-viande-hachee',
-    name: 'Tacos Viande Hachée',
-    ingredients: 'Galette de blé, viande hachée grillée, frites, sauce fromagère maison.',
-    price: 450,
-    category: 'tacos-plats',
-    image: '/m4_orange.png'
-  },
-  {
-    id: 'tco-poulet',
-    name: 'Tacos Poulet',
-    ingredients: 'Galette de blé, émincé de poulet grillé, frites, sauce fromagère.',
-    price: 450,
-    category: 'tacos-plats',
-    image: '/m4_orange.png'
-  },
-  {
-    id: 'tco-merguez',
-    name: 'Tacos Merguez',
-    ingredients: 'Galette de blé, merguez grillées, frites, sauce fromagère maison.',
-    price: 450,
-    category: 'tacos-plats',
-    image: '/m4_orange.png'
-  },
-  {
-    id: 'tco-crispy',
-    name: 'Tacos Crispy',
-    ingredients: 'Galette de blé, poulet pané extra-croustillant, frites, sauce fromagère.',
-    price: 500,
-    category: 'tacos-plats',
-    image: '/m4_orange.png'
-  },
-  {
-    id: 'tco-mixte',
-    name: 'Tacos Mixte',
-    ingredients: 'Galette de blé, mélange de viandes au choix, frites, sauce fromagère maison.',
-    price: 550,
-    category: 'tacos-plats',
-    badge: 'Succès',
-    image: '/m4_orange.png'
-  },
-  {
-    id: 'tco-gratine',
-    name: 'Tacos Gratiné',
-    ingredients: 'Tacos mixte garni de fromage fondant et gratiné au four.',
-    price: 650,
-    category: 'tacos-plats',
-    badge: 'Gratiné',
-    image: '/m4_orange.png'
-  },
-  {
-    id: 'tco-4fromages',
-    name: 'Tacos 4 Fromages',
-    ingredients: 'Tacos généreux avec mozzarella, cheddar, gruyère et fromage rouge fondu.',
-    price: 700,
-    category: 'tacos-plats',
-    image: '/m4_orange.png'
-  },
-  {
-    id: 'bgr-simple',
-    name: 'Burger Simple',
-    ingredients: 'Pain burger moelleux, steak haché grillé, salade, tomate, oignons, sauce maison.',
-    price: 200,
-    category: 'tacos-plats',
-    image: '/m4_orange.png'
-  },
-  {
-    id: 'bgr-cheese',
-    name: 'Cheese Burger',
-    ingredients: 'Pain burger, steak haché grillé, tranche de cheddar fondant, salade, sauce.',
-    price: 250,
-    category: 'tacos-plats',
-    image: '/m4_orange.png'
-  },
-  {
-    id: 'bgr-double',
-    name: 'Double Burger',
-    ingredients: 'Pain burger, double steak de bœuf grillé, double cheddar fondant, salade, sauce.',
-    price: 350,
-    category: 'tacos-plats',
-    badge: 'XXL',
-    image: '/m4_orange.png'
-  },
-  {
-    id: 'bgr-poulet',
-    name: 'Burger Poulet',
-    ingredients: 'Pain burger, filet de poulet grillé, cheddar fondant, salade, sauce.',
-    price: 250,
-    category: 'tacos-plats',
-    image: '/m4_orange.png'
-  },
-  {
-    id: 'bgr-krispy',
-    name: 'Burger Krispy',
-    ingredients: 'Pain burger, filet de poulet pané croustillant, cheddar fondant, salade, sauce.',
-    price: 350,
-    category: 'tacos-plats',
-    image: '/m4_orange.png'
+  {
+    "id": "tom-poulet-c",
+    "name": "Poulet Classique",
+    "ingredients": "Sauce Tomate, Fromage, Olive, Poulet.",
+    "price": 400,
+    "category": "sauce-tomate",
+    "image": "/items/tom_poulet_c.png"
+  },
+  {
+    "id": "tom-kebab-c",
+    "name": "Kebab Classique",
+    "ingredients": "Sauce Tomate, Fromage, Olive, Kebab.",
+    "price": 400,
+    "category": "sauce-tomate",
+    "image": "/items/tom_kebab_c.png"
+  },
+  {
+    "id": "tom-merguez-c",
+    "name": "Merguez Classique",
+    "ingredients": "Sauce Tomate, Fromage, Olive, Merguez.",
+    "price": 400,
+    "category": "sauce-tomate",
+    "image": "/items/tom_merguez_c.png"
+  },
+  {
+    "id": "tom-speciale-c",
+    "name": "Spéciale Classique",
+    "ingredients": "Sauce Tomate, Fromage, Olive, Poulet, Viande Hachée, Maïs.",
+    "price": 400,
+    "category": "sauce-tomate",
+    "image": "/items/tom_speciale_c.png"
+  },
+  {
+    "id": "tom-4saisons",
+    "name": "4 Saisons",
+    "ingredients": "Sauce Tomate, Fromage, Olive, Merguez, Viande Hachée, Œuf.",
+    "price": 400,
+    "category": "sauce-tomate",
+    "image": "/items/tom_4saisons.png"
+  },
+  {
+    "id": "tom-mexicaine",
+    "name": "Mexicaine",
+    "ingredients": "Sauce Tomate, Fromage, Olive, Poulet, Viande Hachée, Thon, Maïs.",
+    "price": 450,
+    "category": "sauce-tomate",
+    "image": "/items/tom_mexicaine.png"
+  },
+  {
+    "id": "tom-maison",
+    "name": "Maison Sauce Tomate",
+    "ingredients": "Sauce Tomate, Fromage, Olive, Viande hachée, Poulet, Kebab, Thon, Maïs, Fromage blanc.",
+    "price": 500,
+    "category": "sauce-tomate",
+    "image": "/items/tom_maison.png"
+  },
+  {
+    "id": "tom-4fromages-c",
+    "name": "4 Fromages Classique",
+    "ingredients": "Sauce Tomate, Fromage Rouge, Gouda, Gruyère, Canserbort, Olive.",
+    "price": 550,
+    "category": "sauce-tomate",
+    "image": "/items/tom_4fromages_c.png"
+  },
+  {
+    "id": "tom-fermier",
+    "name": "Le Fermier",
+    "ingredients": "Sauce Tomate, Fromage, Olive, Poulet fumé, Camembert, Bœuf fumé, Champignon.",
+    "price": 550,
+    "category": "sauce-tomate",
+    "badge": "Spécial",
+    "image": "/items/le_fermier.png"
+  },
+  {
+    "id": "tom-souffle",
+    "name": "Soufflé",
+    "ingredients": "Sauce Tomate, Fromage, Olive, Kebab, Viande hachée, Fromage Blanc, Mozzarella.",
+    "price": 700,
+    "category": "sauce-tomate",
+    "badge": "Chaud",
+    "image": "/items/souffle.png"
+  },
+  {
+    "id": "tom-reine",
+    "name": "Reine",
+    "ingredients": "Sauce tomate, Fromage, Poulet, Kebab, Viande Hachée, Camembert, Mozzarella.",
+    "price": 750,
+    "category": "sauce-tomate",
+    "image": "/items/4_saison.png"
+  },
+  {
+    "id": "tom-super",
+    "name": "Super",
+    "ingredients": "Sauce Tomate, Fromage, Olive, Poulet, Viande hachée, Thon, Maïs, Bordure fromage blanc, Mozzarella.",
+    "price": 750,
+    "category": "sauce-tomate",
+    "image": "/items/super.png"
+  },
+  {
+    "id": "tom-extra-fromage",
+    "name": "Extra Fromage",
+    "ingredients": "Sauce Tomate, Fromage, Olive, Poulet, Merguez, Viande hachée, Kebab, Fromage blanc, Gruyère, Fromage rouge, Camembert, Mozzarella.",
+    "price": 800,
+    "category": "sauce-tomate",
+    "badge": "Maxi Fromage",
+    "image": "/items/extra_fromage.png"
+  },
+  {
+    "id": "tom-istanbul",
+    "name": "Istanbul",
+    "ingredients": "Sauce Tomate, Fromage, Olive, Poulet, Viande hachée, Poivron, Merguez, Kebab, Mozzarella.",
+    "price": 800,
+    "category": "sauce-tomate",
+    "image": "/items/istanbul.png"
+  },
+  {
+    "id": "tom-gruyere",
+    "name": "Gruyère",
+    "ingredients": "Sauce Tomate, Fromage, Olive, Viande hachée, Merguez, Kebab, Gruyère, Mozzarella.",
+    "price": 800,
+    "category": "sauce-tomate",
+    "image": "/items/gruyere.png"
+  },
+  {
+    "id": "crm-poulet",
+    "name": "Poulet Crème",
+    "ingredients": "Crème Fraîche, Fromage, Olive, Poulet.",
+    "price": 500,
+    "category": "creme-fraiche",
+    "image": "/items/creme_poulet.png"
+  },
+  {
+    "id": "crm-kebab",
+    "name": "Kebab Crème",
+    "ingredients": "Crème Fraîche, Fromage, Olive, Kebab.",
+    "price": 500,
+    "category": "creme-fraiche",
+    "image": "/items/creme_kebab.png"
+  },
+  {
+    "id": "crm-maison",
+    "name": "Maison Crème",
+    "ingredients": "Crème Fraîche, Fromage, Olive, Viande hachée, Poulet, Kebab, Thon, Maïs, Fromage Blanc.",
+    "price": 600,
+    "category": "creme-fraiche",
+    "badge": "Spécial Maison",
+    "image": "/items/creme_maison.png"
+  },
+  {
+    "id": "crm-6fromages",
+    "name": "6 Fromages",
+    "ingredients": "Crème Fraîche, Olive, Cheddar, Fromage blanc, Fromage Rouge, Mozzarella, Gouda, Gruyère.",
+    "price": 750,
+    "category": "creme-fraiche",
+    "badge": "Crémeux",
+    "image": "/items/creme_6fromages.png"
+  },
+  {
+    "id": "snd-kebab",
+    "name": "Sandwich Kebab",
+    "ingredients": "Pain maison chaud, viande kebab grillée, frites, salade, sauces.",
+    "price": 300,
+    "category": "sandwiches",
+    "image": "/items/sandwich_kebab.png"
+  },
+  {
+    "id": "snd-poulet",
+    "name": "Sandwich Poulet",
+    "ingredients": "Pain maison, émincé de poulet mariné, frites, salade, sauces.",
+    "price": 300,
+    "category": "sandwiches",
+    "image": "/items/sandwich_poulet.png"
+  },
+  {
+    "id": "snd-kebda",
+    "name": "Sandwich Kebda",
+    "ingredients": "Pain maison, foie épicé sauté, frites, salade, sauces.",
+    "price": 350,
+    "category": "sandwiches",
+    "image": "/items/sandwich_kebda.png"
+  },
+  {
+    "id": "snd-crispy",
+    "name": "Sandwich Crispy",
+    "ingredients": "Pain maison, filet de poulet croustillant pané, frites, salade, sauces.",
+    "price": 350,
+    "category": "sandwiches",
+    "image": "/items/sandwich_crispy.png"
+  },
+  {
+    "id": "snd-merguez",
+    "name": "Sandwich Merguez",
+    "ingredients": "Pain maison, merguez grillées, frites, salade, sauces.",
+    "price": 350,
+    "category": "sandwiches",
+    "image": "/items/sandwich_merguez.png"
+  },
+  {
+    "id": "snd-viande-hachee",
+    "name": "Sandwich Viande Hachée",
+    "ingredients": "Pain maison, viande hachée assaisonnée, frites, salade, sauces.",
+    "price": 350,
+    "category": "sandwiches",
+    "image": "/items/sandwich_viande_hachee.png"
+  },
+  {
+    "id": "snd-mixte",
+    "name": "Sandwich Mixte",
+    "ingredients": "Pain maison, mélange généreux de viandes au choix, frites, salade, sauces.",
+    "price": 450,
+    "category": "sandwiches",
+    "badge": "Gros Appétit",
+    "image": "/items/sandwich_mixte.png"
+  },
+  {
+    "id": "chs-poulet",
+    "name": "Cheese Poulet",
+    "ingredients": "Pain de mie toasté grillé, fromage fondant, poulet mariné, frites.",
+    "price": 300,
+    "category": "sandwiches",
+    "image": "/items/cheese_poulet.png"
+  },
+  {
+    "id": "chs-kebab",
+    "name": "Cheese Kebab",
+    "ingredients": "Pain de mie toasté, fromage fondant, viande kebab grillée, frites.",
+    "price": 350,
+    "category": "sandwiches",
+    "image": "/items/cheese_kebab.png"
+  },
+  {
+    "id": "chs-kebda",
+    "name": "Cheese Kebda",
+    "ingredients": "Pain de mie toasté, fromage fondant, foie épicé sauté, frites.",
+    "price": 350,
+    "category": "sandwiches",
+    "image": "/items/cheese_kebda.png"
+  },
+  {
+    "id": "chs-crispy",
+    "name": "Cheese Crispy",
+    "ingredients": "Pain de mie toasté, fromage fondant, poulet croustillant pané, frites.",
+    "price": 350,
+    "category": "sandwiches",
+    "image": "/items/cheese_crispy.png"
+  },
+  {
+    "id": "chs-merguez",
+    "name": "Cheese Merguez",
+    "ingredients": "Pain de mie toasté, fromage fondant, merguez grillées, frites.",
+    "price": 350,
+    "category": "sandwiches",
+    "image": "/items/cheese_merguez.png"
+  },
+  {
+    "id": "chs-viande-hachee",
+    "name": "Cheese Viande Hachée",
+    "ingredients": "Pain de mie toasté, fromage fondant, viande hachée, frites.",
+    "price": 350,
+    "category": "sandwiches",
+    "image": "/items/cheese_viande_hachee.png"
+  },
+  {
+    "id": "chs-mixte",
+    "name": "Cheese Mixte",
+    "ingredients": "Pain de mie toasté, fromage fondant, mélange de viandes, frites.",
+    "price": 450,
+    "category": "sandwiches",
+    "image": "/items/cheese_mixte.png"
+  },
+  {
+    "id": "lib-poulet",
+    "name": "Libanais Poulet",
+    "ingredients": "Pain libanais enroulé, poulet émincé, frites, salade, crème d'ail.",
+    "price": 400,
+    "category": "sandwiches",
+    "image": "/items/libanais_poulet.png"
+  },
+  {
+    "id": "lib-kebab",
+    "name": "Libanais Kebab",
+    "ingredients": "Pain libanais enroulé, viande kebab grillée, frites, salade, sauces.",
+    "price": 400,
+    "category": "sandwiches",
+    "image": "/items/libanais_kebab.png"
+  },
+  {
+    "id": "lib-crispy",
+    "name": "Libanais Crispy",
+    "ingredients": "Pain libanais, poulet croustillant pané, frites, salade, sauces.",
+    "price": 450,
+    "category": "sandwiches",
+    "image": "/items/libanais_crispy.png"
+  },
+  {
+    "id": "lib-viande-hachee",
+    "name": "Libanais Viande Hachée",
+    "ingredients": "Pain libanais, viande hachée assaisonnée, frites, salade, sauces.",
+    "price": 450,
+    "category": "sandwiches",
+    "image": "/items/libanais_viande_hachee.png"
+  },
+  {
+    "id": "lib-merguez",
+    "name": "Libanais Merguez",
+    "ingredients": "Pain libanais, merguez dorées, frites, salade, sauces.",
+    "price": 450,
+    "category": "sandwiches",
+    "image": "/items/libanais_merguez.png"
+  },
+  {
+    "id": "lib-mixte",
+    "name": "Libanais Mixte",
+    "ingredients": "Pain libanais, mélange de viandes grillées, frites, salade, sauces.",
+    "price": 500,
+    "category": "sandwiches",
+    "badge": "Populaire",
+    "image": "/items/libanais_mixte.png"
+  },
+  {
+    "id": "plt-escalope",
+    "name": "Plat Escalope",
+    "ingredients": "Assiette d'escalope de poulet tendre grillée, frites, salade, sauces.",
+    "price": 550,
+    "category": "tacos-plats",
+    "image": "/items/plat_escalope.png"
+  },
+  {
+    "id": "plt-steak",
+    "name": "Plat Steak Haché",
+    "ingredients": "Assiette de steak haché de bœuf grillé, frites dorées, salade, sauces.",
+    "price": 550,
+    "category": "tacos-plats",
+    "image": "/logo.jpg"
+  },
+  {
+    "id": "plt-merguez",
+    "name": "Plat Merguez",
+    "ingredients": "Assiette de merguez grillées au four traditionnel, frites dorées, salade, sauces.",
+    "price": 550,
+    "category": "tacos-plats",
+    "image": "/items/plat_merguez.png"
+  },
+  {
+    "id": "plt-kebab",
+    "name": "Plat Kebab",
+    "ingredients": "Assiette de viande kebab marinée et grillée, frites dorées, salade, sauces.",
+    "price": 600,
+    "category": "tacos-plats",
+    "image": "/items/plat_kebab.png"
+  },
+  {
+    "id": "plt-crispy",
+    "name": "Plat Crispy",
+    "ingredients": "Assiette de filets de poulet croustillants panés, frites dorées, salade, sauces.",
+    "price": 650,
+    "category": "tacos-plats",
+    "image": "/items/plat_crispy.png"
+  },
+  {
+    "id": "plt-kebda",
+    "name": "Plat Kebda",
+    "ingredients": "Assiette de foie épicé sauté aux oignons, frites dorées, salade, sauces.",
+    "price": 650,
+    "category": "tacos-plats",
+    "image": "/items/plat_kebda.png"
+  },
+  {
+    "id": "plt-mixte",
+    "name": "Plat Mixte",
+    "ingredients": "Assiette royale avec un assortiment de viandes au choix, frites, salade, sauces.",
+    "price": 700,
+    "category": "tacos-plats",
+    "badge": "Complet",
+    "image": "/items/plat_mixte.png"
+  },
+  {
+    "id": "tco-kebab",
+    "name": "Tacos Kebab",
+    "ingredients": "Galette de blé grillée, viande kebab, frites dorées, sauce fromagère onctueuse.",
+    "price": 450,
+    "category": "tacos-plats",
+    "image": "/logo.jpg"
+  },
+  {
+    "id": "tco-viande-hachee",
+    "name": "Tacos Viande Hachée",
+    "ingredients": "Galette de blé, viande hachée grillée, frites, sauce fromagère maison.",
+    "price": 450,
+    "category": "tacos-plats",
+    "image": "/logo.jpg"
+  },
+  {
+    "id": "tco-poulet",
+    "name": "Tacos Poulet",
+    "ingredients": "Galette de blé, émincé de poulet grillé, frites, sauce fromagère.",
+    "price": 450,
+    "category": "tacos-plats",
+    "image": "/logo.jpg"
+  },
+  {
+    "id": "tco-merguez",
+    "name": "Tacos Merguez",
+    "ingredients": "Galette de blé, merguez grillées, frites, sauce fromagère maison.",
+    "price": 450,
+    "category": "tacos-plats",
+    "image": "/logo.jpg"
+  },
+  {
+    "id": "tco-crispy",
+    "name": "Tacos Crispy",
+    "ingredients": "Galette de blé, poulet pané extra-croustillant, frites, sauce fromagère.",
+    "price": 500,
+    "category": "tacos-plats",
+    "image": "/logo.jpg"
+  },
+  {
+    "id": "tco-mixte",
+    "name": "Tacos Mixte",
+    "ingredients": "Galette de blé, mélange de viandes au choix, frites, sauce fromagère maison.",
+    "price": 550,
+    "category": "tacos-plats",
+    "badge": "Succès",
+    "image": "/logo.jpg"
+  },
+  {
+    "id": "tco-gratine",
+    "name": "Tacos Gratiné",
+    "ingredients": "Tacos mixte garni de fromage fondant et gratiné au four.",
+    "price": 650,
+    "category": "tacos-plats",
+    "badge": "Gratiné",
+    "image": "/logo.jpg"
+  },
+  {
+    "id": "tco-4fromages",
+    "name": "Tacos 4 Fromages",
+    "ingredients": "Tacos généreux avec mozzarella, cheddar, gruyère et fromage rouge fondu.",
+    "price": 700,
+    "category": "tacos-plats",
+    "image": "/logo.jpg"
+  },
+  {
+    "id": "bgr-simple",
+    "name": "Burger Simple",
+    "ingredients": "Pain burger moelleux, steak haché grillé, salade, tomate, oignons, sauce maison.",
+    "price": 200,
+    "category": "tacos-plats",
+    "image": "/logo.jpg"
+  },
+  {
+    "id": "bgr-cheese",
+    "name": "Cheese Burger",
+    "ingredients": "Pain burger, steak haché grillé, tranche de cheddar fondant, salade, sauce.",
+    "price": 250,
+    "category": "tacos-plats",
+    "image": "/logo.jpg"
+  },
+  {
+    "id": "bgr-double",
+    "name": "Double Burger",
+    "ingredients": "Pain burger, double steak de bœuf grillé, double cheddar fondant, salade, sauce.",
+    "price": 350,
+    "category": "tacos-plats",
+    "badge": "XXL",
+    "image": "/logo.jpg"
+  },
+  {
+    "id": "bgr-poulet",
+    "name": "Burger Poulet",
+    "ingredients": "Pain burger, filet de poulet grillé, cheddar fondant, salade, sauce.",
+    "price": 250,
+    "category": "tacos-plats",
+    "image": "/logo.jpg"
+  },
+  {
+    "id": "bgr-krispy",
+    "name": "Burger Krispy",
+    "ingredients": "Pain burger, filet de poulet pané croustillant, cheddar fondant, salade, sauce.",
+    "price": 350,
+    "category": "tacos-plats",
+    "image": "/logo.jpg"
   }
-];;
+];
 
 export default function App() {
   const [searchQuery, setSearchQuery] = useState('');
