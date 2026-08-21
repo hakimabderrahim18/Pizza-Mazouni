@@ -1085,3 +1085,45 @@ html, body {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(37, 211, 102, 0.5);
 }
+
+/* WhatsApp Direct Actions Styling */
+.card-actions-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.btn-card-add {
+  margin-top: 0 !important;
+}
+
+.btn-card-direct-wa {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  width: 100%;
+  padding: 10px;
+  border-radius: 25px;
+  background: linear-gradient(135deg, #25D366, #128C7E);
+  color: #fff;
+  border: none;
+  font-family: var(--font-display);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(37, 211, 102, 0.25);
+  transition: all 0.25s ease;
+}
+
+.btn-card-direct-wa:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(37, 211, 102, 0.4);
+}
+
+.btn-order-wa {
+  background: linear-gradient(135deg, #25D366, #128C7E) !important;
+  box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3) !important;
+}

@@ -624,26 +624,30 @@ export default function App() {
     setCart(prevCart => prevCart.filter(item => item.id !== itemId));
   };
 
-  const handleOrderSubmit = (e) => {
-    e.preventDefault();
-    if (!customerName.trim() || !customerPhone.trim()) {
-      alert("Veuillez remplir votre nom et numéro de téléphone.");
+  // WhatsApp Messaging
+  const sendToWhatsApp = (items, name, phone) => {
+    if (!items || items.length === 0) {
+      alert("Votre panier est vide. Veuillez choisir au moins un plat.");
       return;
     }
 
-    // Build structured WhatsApp message
     let message = `*Nouvelle commande - Pizza Mazouni* 🍕\n`;
     message += `--------------------------------\n`;
-    message += `*Nom du client :* ${customerName}\n`;
-    message += `*Téléphone :* ${customerPhone}\n`;
+    if (name && name.trim()) {
+      message += `*Nom du client :* ${name.trim()}\n`;
+    }
+    if (phone && phone.trim()) {
+      message += `*Téléphone :* ${phone.trim()}\n`;
+    }
     message += `--------------------------------\n\n`;
     message += `*Détails de la commande :*\n`;
 
     let total = 0;
-    cart.forEach((item, index) => {
-      const itemTotal = item.price * item.quantity;
+    items.forEach((item, index) => {
+      const qty = item.quantity || 1;
+      const itemTotal = item.price * qty;
       total += itemTotal;
-      message += `${index + 1}. *${item.name}* (x${item.quantity}) - ${itemTotal} DA\n`;
+      message += `${index + 1}. *${item.name}* (x${qty}) - ${itemTotal} DA\n`;
     });
 
     message += `\n*Total à payer :* *${total} DA*\n`;
@@ -651,13 +655,19 @@ export default function App() {
     message += `_Commande envoyée depuis le site Pizza Mazouni_`;
 
     const encodedMessage = encodeURIComponent(message);
-    const whatsappUrl = `https://wa.me/213797060052?text=${encodedMessage}`;
+    const whatsappUrl = `https://api.whatsapp.com/send?phone=213797060052&text=${encodedMessage}`;
     
-    window.open(whatsappUrl, '_blank');
+    // Redirect directly - never blocked by pop-up blockers
+    window.location.href = whatsappUrl;
+  };
 
-    // Clear cart after order
-    setCart([]);
-    setIsCartOpen(false);
+  const handleOrderSubmit = (e) => {
+    if (e) e.preventDefault();
+    sendToWhatsApp(cart, customerName, customerPhone);
+  };
+
+  const orderDirectlyWhatsApp = (item) => {
+    sendToWhatsApp([{ ...item, quantity: 1 }], customerName, customerPhone);
   };
 
   const openModal = (item) => {
@@ -756,15 +766,28 @@ export default function App() {
                       <span className="menu-card-price">{item.price} DA</span>
                     </div>
                     <p className="menu-card-ingredients">{item.ingredients}</p>
-                    <button 
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        addToCart(item);
-                      }} 
-                      className="btn-card-add"
-                    >
-                      Ajouter au panier 🛒
-                    </button>
+                    <div className="card-actions-row">
+                      <button 
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          addToCart(item);
+                        }} 
+                        className="btn-card-add"
+                        title="Ajouter au panier"
+                      >
+                        + Panier 🛒
+                      </button>
+                      <button 
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          orderDirectlyWhatsApp(item);
+                        }} 
+                        className="btn-card-direct-wa"
+                        title="Commander directement sur WhatsApp"
+                      >
+                        WhatsApp 💬
+                      </button>
+                    </div>
                   </div>
                 </div>
               ))}
@@ -798,6 +821,14 @@ export default function App() {
                 <p className="ingredients-label">Ingrédients :</p>
                 <p className="modal-ingredients">{selectedItem.ingredients}</p>
                 <div className="modal-actions-grid">
+                  <button 
+                    onClick={() => {
+                      orderDirectlyWhatsApp(selectedItem);
+                    }}
+                    className="btn-order btn-order-wa"
+                  >
+                    Commander sur WhatsApp 💬
+                  </button>
                   <button 
                     onClick={() => {
                       addToCart(selectedItem);
@@ -881,25 +912,23 @@ export default function App() {
                   
                   <form onSubmit={handleOrderSubmit} className="cart-form">
                     <div className="form-group">
-                      <label htmlFor="customer-name">Votre Nom *</label>
+                      <label htmlFor="customer-name">Votre Nom (optionnel)</label>
                       <input 
                         type="text" 
                         id="customer-name"
                         value={customerName}
                         onChange={(e) => setCustomerName(e.target.value)}
                         placeholder="Ex: Mohamed Amine"
-                        required 
                       />
                     </div>
                     <div className="form-group">
-                      <label htmlFor="customer-phone">Numéro de Téléphone *</label>
+                      <label htmlFor="customer-phone">Numéro de Téléphone (optionnel)</label>
                       <input 
                         type="tel" 
                         id="customer-phone"
                         value={customerPhone}
                         onChange={(e) => setCustomerPhone(e.target.value)}
                         placeholder="Ex: 0550123456"
-                        required 
                       />
                     </div>
                     <button type="submit" className="btn-checkout">
