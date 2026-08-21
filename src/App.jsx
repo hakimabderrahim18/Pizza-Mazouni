@@ -549,6 +549,29 @@ export default function App() {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
+  
+  // Cart state
+  const [cart, setCart] = useState(() => {
+    const saved = localStorage.getItem('pizza_mazouni_cart');
+    return saved ? JSON.parse(saved) : [];
+  });
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [customerName, setCustomerName] = useState(() => localStorage.getItem('pizza_mazouni_name') || '');
+  const [customerPhone, setCustomerPhone] = useState(() => localStorage.getItem('pizza_mazouni_phone') || '');
+
+  // Save cart to local storage
+  useEffect(() => {
+    localStorage.setItem('pizza_mazouni_cart', JSON.stringify(cart));
+  }, [cart]);
+
+  // Save customer info to local storage
+  useEffect(() => {
+    localStorage.setItem('pizza_mazouni_name', customerName);
+  }, [customerName]);
+  
+  useEffect(() => {
+    localStorage.setItem('pizza_mazouni_phone', customerPhone);
+  }, [customerPhone]);
 
   const categories = [
     { id: 'all', name: 'Tout' },
@@ -573,6 +596,69 @@ export default function App() {
     if (sortBy === 'price-desc') return b.price - a.price;
     return 0; // keeps default order
   });
+
+  // Cart operations
+  const addToCart = (item) => {
+    setCart(prevCart => {
+      const existingItemIndex = prevCart.findIndex(cartItem => cartItem.id === item.id);
+      if (existingItemIndex > -1) {
+        const newCart = [...prevCart];
+        newCart[existingItemIndex].quantity += 1;
+        return newCart;
+      }
+      return [...prevCart, { ...item, quantity: 1 }];
+    });
+  };
+
+  const updateCartQuantity = (itemId, newQty) => {
+    if (newQty <= 0) {
+      removeFromCart(itemId);
+      return;
+    }
+    setCart(prevCart => 
+      prevCart.map(item => item.id === itemId ? { ...item, quantity: newQty } : item)
+    );
+  };
+
+  const removeFromCart = (itemId) => {
+    setCart(prevCart => prevCart.filter(item => item.id !== itemId));
+  };
+
+  const handleOrderSubmit = (e) => {
+    e.preventDefault();
+    if (!customerName.trim() || !customerPhone.trim()) {
+      alert("Veuillez remplir votre nom et numéro de téléphone.");
+      return;
+    }
+
+    // Build structured WhatsApp message
+    let message = `*Nouvelle commande - Pizza Mazouni* 🍕\n`;
+    message += `--------------------------------\n`;
+    message += `*Nom du client :* ${customerName}\n`;
+    message += `*Téléphone :* ${customerPhone}\n`;
+    message += `--------------------------------\n\n`;
+    message += `*Détails de la commande :*\n`;
+
+    let total = 0;
+    cart.forEach((item, index) => {
+      const itemTotal = item.price * item.quantity;
+      total += itemTotal;
+      message += `${index + 1}. *${item.name}* (x${item.quantity}) - ${itemTotal} DA\n`;
+    });
+
+    message += `\n*Total à payer :* *${total} DA*\n`;
+    message += `--------------------------------\n`;
+    message += `_Commande envoyée depuis le site Pizza Mazouni_`;
+
+    const encodedMessage = encodeURIComponent(message);
+    const whatsappUrl = `https://wa.me/213797060052?text=${encodedMessage}`;
+    
+    window.open(whatsappUrl, '_blank');
+
+    // Clear cart after order
+    setCart([]);
+    setIsCartOpen(false);
+  };
 
   const openModal = (item) => {
     setSelectedItem(item);
@@ -670,6 +756,15 @@ export default function App() {
                       <span className="menu-card-price">{item.price} DA</span>
                     </div>
                     <p className="menu-card-ingredients">{item.ingredients}</p>
+                    <button 
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        addToCart(item);
+                      }} 
+                      className="btn-card-add"
+                    >
+                      Ajouter au panier 🛒
+                    </button>
                   </div>
                 </div>
               ))}
@@ -702,12 +797,19 @@ export default function App() {
                 <span className="modal-price">{selectedItem.price} DA</span>
                 <p className="ingredients-label">Ingrédients :</p>
                 <p className="modal-ingredients">{selectedItem.ingredients}</p>
-                <div className="modal-actions">
-                  <a href="tel:0773053626" className="btn-order">
-                    <svg className="phone-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.94.725l.548 2.2a1 1 0 01-.321.988l-1.305.98a10.582 10.582 0 004.872 4.872l.98-1.305a1 1 0 01.988-.321l2.2.548a1 1 0 01.725.94V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
-                    </svg>
-                    Commander maintenant
+                <div className="modal-actions-grid">
+                  <button 
+                    onClick={() => {
+                      addToCart(selectedItem);
+                      closeModal();
+                      setIsCartOpen(true);
+                    }}
+                    className="btn-order"
+                  >
+                    Ajouter au panier 🛒
+                  </button>
+                  <a href="tel:0797060052" className="btn-order-call">
+                    Appeler : 0797060052
                   </a>
                 </div>
               </div>
@@ -716,21 +818,116 @@ export default function App() {
         </div>
       )}
 
+      {/* STICKY BOTTOM CART BAR */}
+      {cart.length > 0 && (
+        <div className="cart-sticky-bar" onClick={() => setIsCartOpen(true)}>
+          <div className="cart-sticky-info">
+            <span className="cart-sticky-count">
+              🛒 {cart.reduce((sum, item) => sum + item.quantity, 0)} articles
+            </span>
+            <span className="cart-sticky-total">
+              Total : {cart.reduce((sum, item) => sum + (item.price * item.quantity), 0)} DA
+            </span>
+          </div>
+          <button className="cart-sticky-btn">Voir le panier →</button>
+        </div>
+      )}
+
+      {/* CART DRAWER */}
+      {isCartOpen && (
+        <div className="cart-drawer-container">
+          <div className="cart-overlay" onClick={() => setIsCartOpen(false)}></div>
+          <div className="cart-drawer">
+            <div className="cart-header">
+              <h2>Votre Panier 🛒</h2>
+              <button className="cart-close-btn" onClick={() => setIsCartOpen(false)}>&times;</button>
+            </div>
+            
+            {cart.length === 0 ? (
+              <div className="cart-empty">
+                <p>Votre panier est vide.</p>
+                <button className="btn-reset" onClick={() => setIsCartOpen(false)}>Retour au menu</button>
+              </div>
+            ) : (
+              <>
+                <div className="cart-items">
+                  {cart.map(item => (
+                    <div key={item.id} className="cart-item">
+                      <div className="cart-item-details">
+                        <h4>{item.name}</h4>
+                        <span className="cart-item-price">{item.price} DA</span>
+                      </div>
+                      <div className="cart-item-actions">
+                        <div className="quantity-controller">
+                          <button onClick={() => updateCartQuantity(item.id, item.quantity - 1)}>-</button>
+                          <span>{item.quantity}</span>
+                          <button onClick={() => updateCartQuantity(item.id, item.quantity + 1)}>+</button>
+                        </div>
+                        <button className="cart-item-remove" onClick={() => removeFromCart(item.id)}>
+                          Supprimer
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="cart-summary">
+                  <div className="cart-total-row">
+                    <span>Total :</span>
+                    <span className="cart-total-price">
+                      {cart.reduce((sum, item) => sum + (item.price * item.quantity), 0)} DA
+                    </span>
+                  </div>
+                  
+                  <form onSubmit={handleOrderSubmit} className="cart-form">
+                    <div className="form-group">
+                      <label htmlFor="customer-name">Votre Nom *</label>
+                      <input 
+                        type="text" 
+                        id="customer-name"
+                        value={customerName}
+                        onChange={(e) => setCustomerName(e.target.value)}
+                        placeholder="Ex: Mohamed Amine"
+                        required 
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="customer-phone">Numéro de Téléphone *</label>
+                      <input 
+                        type="tel" 
+                        id="customer-phone"
+                        value={customerPhone}
+                        onChange={(e) => setCustomerPhone(e.target.value)}
+                        placeholder="Ex: 0550123456"
+                        required 
+                      />
+                    </div>
+                    <button type="submit" className="btn-checkout">
+                      Commander via WhatsApp 💬
+                    </button>
+                  </form>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      )}
+
       {/* FLOATING CTA BUTTON */}
-      <a href="tel:0773053626" className="floating-cta" title="Appeler pour commander">
+      <a href="tel:0797060052" className="floating-cta" title="Appeler pour commander">
         <svg className="phone-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.94.725l.548 2.2a1 1 0 01-.321.988l-1.305.98a10.582 10.582 0 004.872 4.872l.98-1.305a1 1 0 01.988-.321l2.2.548a1 1 0 01.725.94V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
         </svg>
-        <span>Commander : 0773053626</span>
+        <span>Commander : 0797060052</span>
       </a>
 
       {/* FOOTER */}
-      <footer className="app-root-footer" style={{ display: 'none' }} /> {/* Unused spacer */}
+      <footer className="app-root-footer" style={{ display: 'none' }} />
       <footer className="app-footer">
         <div className="footer-info">
           <h3>Pizza Mazouni</h3>
           <p className="tagline">Le goût du fait maison, le secret de notre tradition ✨</p>
-          <p className="phone">Téléphone : 0773053626</p>
+          <p className="phone">Téléphone : 0797060052</p>
           <p className="partner">À côté de la mosquée Ibn Badis EPLF, Tiaret</p>
         </div>
         <div className="footer-qr">
